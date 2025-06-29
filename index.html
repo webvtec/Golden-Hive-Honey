@@ -380,9 +380,13 @@ function closeMenu() {
       });
     }
 
-    window.onload = function () {
-      loadGallery('galleryDisplay');
-    }
+    window.onload = function() {
+  loadGallery('galleryDisplay');
+  updateCartCount();
+  if (currentUser) {
+    loadReviews(currentUser);
+  }
+};
 
 // Assume firebase is initialized and 'db' and 'auth' are set up
 
@@ -545,14 +549,6 @@ function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   document.getElementById('cart-count').textContent = cart.length;
 }
-
-// Call on load
-window.onload = function() {
-  loadGallery('galleryDisplay');
-  updateCartCount();
-};
-
-
 
 
   </script>
