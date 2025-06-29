@@ -87,10 +87,16 @@
     }
 
     .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-    }
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  /* 2 items per row */
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);  /* 3 items per row for larger screens */
+  }
+}
 
     .product-card {
       background: #fff;
