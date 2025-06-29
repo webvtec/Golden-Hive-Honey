@@ -228,7 +228,7 @@
       background: #fff;
       border: 1px solid #eee;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       padding: 10px;
       text-align: center;
     }
@@ -264,6 +264,101 @@
       cursor: pointer;
       font-weight: bold;
     }
+
+    /* Cart Modal Styling */
+    #cartModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 2000;
+    }
+
+    #cartModal > div {
+      background: white;
+      max-width: 320px;
+      margin: 80px auto;
+      border-radius: 12px;
+      padding: 15px 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      font-family: 'Zilla Slab', serif;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    #cartModal h2 {
+      margin-top: 0;
+      text-align: center;
+      color: #6200ea;
+    }
+
+    #cartItemsContainer > div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    #cartItemsContainer img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-right: 10px;
+    }
+
+    #cartItemsContainer span {
+      font-weight: normal;
+    }
+
+    #cartItemsContainer div > div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-grow: 1;
+    }
+
+    #cartButtons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    #cartButtons button {
+      flex: 1;
+      padding: 10px 0;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Zilla Slab', serif;
+      font-size: 16px;
+      margin: 0 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    #checkoutBtn {
+      background-color: #6200ea;
+      color: white;
+    }
+
+    #checkoutBtn:hover {
+      background-color: #3700b3;
+    }
+
+    #closeCartBtn {
+      background-color: #ccc;
+      color: black;
+    }
+
+    #closeCartBtn:hover {
+      background-color: #999;
+    }
+
   </style>
 </head>
 
@@ -275,42 +370,30 @@
     <button class="location-button" onclick="viewCart()">🛒 <span id="cart-count">0</span></button>
   </div>
 
-  <!-- ✅ Gallery Section (Now Wrapped) -->
+  <!-- Gallery Section -->
   <div id="gallerySection" class="content-section active">
     <h2 style="text-align:center; margin-top:60px;"></h2>
     <div id="galleryDisplay"></div>
   </div>
 
-  <!-- ✅ Menu -->
+  <!-- Menu -->
   <div class="menu" id="menu">
-    <!-- Menu Links -->
     <a onclick="showSection('gallerySection'); closeMenu();" href="javascript:void(0);"> 🍯 PRODUCTS</a>
     <a onclick="showSection('reviewsSection'); closeMenu();" href="javascript:void(0);">⭐️ REVIEWS</a>
 
-    <!-- Logout Button -->
-    <a onclick="logoutUser(); closeMenu();"
-      style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:red; color:white; border-radius:6px; cursor:pointer; text-decoration:none; width:80%; font-weight:bold;"
-      href="javascript:void(0);">
-      LOGOUT
-    </a>
+    <a onclick="logoutUser(); closeMenu();" style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:red; color:white; border-radius:6px; cursor:pointer; text-decoration:none; width:80%; font-weight:bold;" href="javascript:void(0);">LOGOUT</a>
 
-    <!-- Admin Button -->
-    <a onclick="login(); closeMenu();" class="admin-button"
-      style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:#6200ea; color:white; border-radius:6px; text-decoration:none; width:80%; font-weight:bold;"
-      href="javascript:void(0);">
-      ADMIN
-    </a>
+    <a onclick="login(); closeMenu();" class="admin-button" style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:#6200ea; color:white; border-radius:6px; text-decoration:none; width:80%; font-weight:bold;" href="javascript:void(0);">ADMIN</a>
   </div>
 
+  <!-- Reviews Section -->
   <div id="reviewsSection" class="content-section">
     <h1 style="text-align:center; color:#6200ea;">CLIENT REVIEWS</h1>
 
     <form id="reviewForm" style="max-width:500px; margin:10px auto; text-align:center;">
-      <input type="text" id="reviewName" placeholder="Your Name" required
-        style="width:100%; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;" />
+      <input type="text" id="reviewName" placeholder="Your Name" required style="width:100%; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;" />
 
-      <textarea id="reviewComment" placeholder="Write your review..." required
-        style="width:100%; height:80px; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;"></textarea>
+      <textarea id="reviewComment" placeholder="Write your review..." required style="width:100%; height:80px; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;"></textarea>
 
       <div id="starRating" style="font-size:24px; margin-bottom:10px; cursor:pointer; color:#ccc;">
         <span data-value="1">★</span>
@@ -320,64 +403,27 @@
         <span data-value="5">★</span>
       </div>
 
-      <button type="submit"
-        style="background-color:#6200ea; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer;">Submit
-        Review</button>
+      <button type="submit" style="background-color:#6200ea; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer;">Submit Review</button>
     </form>
 
     <p id="reviewSubmitMsg" style="text-align:center; color:green;"></p>
 
-    <!-- Container where reviews will be loaded -->
     <div id="reviewsContainer" style="max-width:600px; margin:20px auto;"></div>
   </div>
 
   <!-- Cart Modal -->
-  <div id="cartModal" style="
-  display: none;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 2000;
-  overflow-y: auto;
-  ">
-    <div style="
-    background: white;
-    max-width: 400px;
-    margin: 80px auto;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    font-family: 'Zilla Slab', serif;
-  ">
-      <h2 style="margin-top:0; text-align:center; color:#6200ea;">Your Cart</h2>
-      <div id="cartItemsContainer" style="max-height: 300px; overflow-y: auto; margin-bottom: 15px;">
-        <!-- Cart items will be rendered here -->
+  <div id="cartModal">
+    <div>
+      <h2>Your Cart</h2>
+      <div id="cartItemsContainer"></div>
+      <div id="cartTotal" style="text-align:right; font-weight:bold; margin-top: 10px;"></div>
+      <div id="cartButtons">
+        <button id="closeCartBtn">Close</button>
+        <button id="checkoutBtn">Checkout</button>
       </div>
-      <button id="checkoutBtn" style="
-      width: 100%;
-      background-color: #6200ea;
-      color: white;
-      border: none;
-      padding: 12px;
-      font-weight: bold;
-      font-size: 18px;
-      border-radius: 8px;
-      cursor: pointer;
-    ">Checkout</button>
-      <button id="closeCartBtn" style="
-      margin-top: 10px;
-      width: 100%;
-      background-color: #ccc;
-      color: #333;
-      border: none;
-      padding: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-    ">Close</button>
     </div>
   </div>
 
-  <!-- ✅ Scripts -->
   <script>
     let currentUser = null;
 
@@ -398,7 +444,7 @@
         window.location.href = 'login.html';
       } else {
         currentUser = user;
-        loadReviews(currentUser);  // keep this if you still want to load reviews
+        loadReviews(currentUser);
       }
     });
 
@@ -449,47 +495,39 @@
 
         for (const category in categories) {
           galleryContainer.innerHTML += `
-        <div class="gallery-category">
-          <h3>${category}</h3>
-          <div class="gallery-wrapper">
-            <div class="gallery-grid" id="gallery-${category}"></div>
-          </div>
-        </div>
-      `;
+            <div class="gallery-category">
+              <h3>${category}</h3>
+              <div class="gallery-wrapper">
+                <div class="gallery-grid" id="gallery-${category}"></div>
+              </div>
+            </div>
+          `;
 
           const categoryContainer = document.getElementById(`gallery-${category}`);
           categories[category].forEach((item) => {
             categoryContainer.innerHTML += `
-          <div class="product-card">
-            <img src="${item.imageUrl}" alt="${item.name}">
-            <div class="product-info">
-              <div class="product-name">${item.name}</div>
-              <div class="product-price">$${item.price.toFixed(2)}</div>
-              <button onclick="addToCart('${item.name}', ${item.price})">Add to Cart</button>
-            </div>
-          </div>
-        `;
+              <div class="product-card">
+                <img src="${item.imageUrl}" alt="${item.name}">
+                <div class="product-info">
+                  <div class="product-name">${item.name}</div>
+                  <div class="product-price">$${item.price.toFixed(2)}</div>
+                  <button onclick="addToCart('${item.name}', ${item.price}, '${item.imageUrl}')">Add to Cart</button>
+                </div>
+              </div>
+            `;
           });
         }
       });
     }
 
-    window.onload = function () {
+    window.onload = function() {
       loadGallery('galleryDisplay');
       updateCartCount();
     };
 
-    firebase.auth().onAuthStateChanged(user => {
-      if (!user) {
-        window.location.href = 'login.html';
-      } else {
-        currentUser = user;
-        loadReviews(currentUser);
-      }
-    });
+    let selectedRating = 0;
 
     // Star rating UI logic
-    let selectedRating = 0;
     document.querySelectorAll('#starRating span').forEach(star => {
       star.addEventListener('click', () => {
         selectedRating = parseInt(star.getAttribute('data-value'));
@@ -529,52 +567,88 @@
         });
 
         msg.style.color = "green";
-        msg.textContent = "Thank you for your review!";
+        msg.textContent = "Review submitted!";
+
         document.getElementById('reviewForm').reset();
         selectedRating = 0;
         document.querySelectorAll('#starRating span').forEach(s => s.style.color = '#ccc');
 
+        loadReviews(user);
+
       } catch (error) {
-        console.error("Error submitting review:", error);
-        msg.style.color = "red";
-        msg.textContent = "Error submitting review.";
+        alert("Error submitting review: " + error.message);
       }
     });
 
+    // Load reviews
     function loadReviews(user) {
       const container = document.getElementById('reviewsContainer');
-      container.innerHTML = "<p>Loading reviews...</p>";
+      container.innerHTML = '';
 
-      db.collection('reviews').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+      db.collection('reviews').orderBy('timestamp', 'desc').get().then(snapshot => {
         if (snapshot.empty) {
-          container.innerHTML = "<p>No reviews yet.</p>";
+          container.innerHTML = '<p>No reviews yet.</p>';
           return;
         }
-        container.innerHTML = '';
+
         snapshot.forEach(doc => {
           const data = doc.data();
+          const canDelete = user && data.uid === user.uid;
 
-          let stars = "";
-          for (let i = 1; i <= 5; i++) {
-            stars += i <= data.rating ? "★" : "☆";
+          const reviewDiv = document.createElement('div');
+          reviewDiv.style.borderBottom = '1px solid #ddd';
+          reviewDiv.style.padding = '10px 0';
+
+          const stars = '★'.repeat(data.rating) + '☆'.repeat(5 - data.rating);
+
+          reviewDiv.innerHTML = `
+            <strong>${data.name}</strong> <span style="color: #f39c12;">${stars}</span><br/>
+            <p>${data.comment}</p>
+          `;
+
+          if (canDelete) {
+            const delBtn = document.createElement('button');
+            delBtn.textContent = 'Delete';
+            delBtn.style.backgroundColor = '#e74c3c';
+            delBtn.style.color = 'white';
+            delBtn.style.border = 'none';
+            delBtn.style.padding = '5px 10px';
+            delBtn.style.borderRadius = '4px';
+            delBtn.style.cursor = 'pointer';
+            delBtn.onclick = () => deleteReview(doc.id);
+            reviewDiv.appendChild(delBtn);
           }
 
-          container.innerHTML += `
-            <div style="border-bottom:1px solid #eee; padding:10px 0;">
-              <strong>${data.name}</strong> <span style="color:#f39c12;">${stars}</span>
-              <p>${data.comment}</p>
-            </div>
-          `;
+          container.appendChild(reviewDiv);
         });
       });
     }
 
-    function logoutUser() {
-      firebase.auth().signOut().then(() => {
-        window.location.href = 'login.html';
+    // Delete review
+    function deleteReview(docId) {
+      const user = firebase.auth().currentUser;
+      if (!user) {
+        alert('You must be logged in to delete reviews.');
+        return;
+      }
+
+      db.collection('reviews').doc(docId).get().then(doc => {
+        if (doc.exists && doc.data().uid === user.uid) {
+          db.collection('reviews').doc(docId).delete()
+            .then(() => {
+              alert('Review deleted.');
+              loadReviews(user);
+            })
+            .catch(error => {
+              alert('Error deleting review: ' + error.message);
+            });
+        } else {
+          alert("You can only delete your own reviews.");
+        }
       });
     }
 
+    // Show section
     function showSection(sectionId) {
       document.querySelectorAll('.content-section').forEach(section => {
         section.classList.remove('active');
@@ -582,11 +656,18 @@
       document.getElementById(sectionId).classList.add('active');
     }
 
-    // Cart related functions
+    // Logout
+    function logoutUser() {
+      firebase.auth().signOut().then(() => {
+        window.location.href = 'login.html';
+      });
+    }
 
-    function addToCart(name, price) {
+    // CART FUNCTIONALITY
+
+    function addToCart(name, price, imageUrl) {
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push({ name, price });
+      cart.push({ name, price, imageUrl });
       localStorage.setItem('cart', JSON.stringify(cart));
       updateCartCount();
       alert(`${name} added to cart.`);
@@ -594,51 +675,64 @@
 
     function updateCartCount() {
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      document.getElementById('cart-count').textContent = cart.length;
+      const count = cart.length;
+      document.getElementById('cart-count').textContent = count;
     }
 
     function viewCart() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const cartModal = document.getElementById('cartModal');
+      const modal = document.getElementById('cartModal');
       const container = document.getElementById('cartItemsContainer');
-
-      if (cart.length === 0) {
-        alert('Your cart is empty.');
-        return;
-      }
-
-      // Clear previous content
+      const totalElem = document.getElementById('cartTotal');
       container.innerHTML = '';
 
-      let total = 0;
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (cart.length === 0) {
+        container.innerHTML = '<p>Your cart is empty.</p>';
+        totalElem.textContent = '';
+      } else {
+        let total = 0;
 
-      cart.forEach((item, index) => {
-        total += item.price;
+        cart.forEach((item, index) => {
+          total += item.price;
 
-        const itemDiv = document.createElement('div');
-        itemDiv.style.display = 'flex';
-        itemDiv.style.justifyContent = 'space-between';
-        itemDiv.style.padding = '8px 0';
-        itemDiv.style.borderBottom = '1px solid #eee';
+          const itemDiv = document.createElement('div');
+          itemDiv.style.display = 'flex';
+          itemDiv.style.alignItems = 'center';
+          itemDiv.style.justifyContent = 'space-between';
+          itemDiv.style.padding = '8px 0';
+          itemDiv.style.borderBottom = '1px solid #eee';
 
-        itemDiv.innerHTML = `
-          <span>${item.name}</span>
-          <span>$${item.price.toFixed(2)}</span>
-        `;
+          const img = document.createElement('img');
+          img.src = item.imageUrl;
+          img.alt = item.name;
 
-        container.appendChild(itemDiv);
-      });
+          const infoDiv = document.createElement('div');
+          infoDiv.style.flexGrow = '1';
+          infoDiv.style.display = 'flex';
+          infoDiv.style.justifyContent = 'space-between';
+          infoDiv.style.alignItems = 'center';
 
-      // Add total row
-      const totalDiv = document.createElement('div');
-      totalDiv.style.fontWeight = 'bold';
-      totalDiv.style.padding = '12px 0 0';
-      totalDiv.style.textAlign = 'right';
-      totalDiv.textContent = `Total: $${total.toFixed(2)}`;
-      container.appendChild(totalDiv);
+          const nameSpan = document.createElement('span');
+          nameSpan.textContent = item.name;
 
-      // Show modal
-      cartModal.style.display = 'block';
+          const priceSpan = document.createElement('span');
+          priceSpan.textContent = `$${item.price.toFixed(2)}`;
+          priceSpan.style.marginLeft = '10px';
+          priceSpan.style.fontWeight = 'bold';
+
+          infoDiv.appendChild(nameSpan);
+          infoDiv.appendChild(priceSpan);
+
+          itemDiv.appendChild(img);
+          itemDiv.appendChild(infoDiv);
+
+          container.appendChild(itemDiv);
+        });
+
+        totalElem.textContent = `Total: $${total.toFixed(2)}`;
+      }
+
+      modal.style.display = 'block';
     }
 
     document.getElementById('closeCartBtn').addEventListener('click', () => {
@@ -646,14 +740,9 @@
     });
 
     document.getElementById('checkoutBtn').addEventListener('click', () => {
-      alert('Proceeding to checkout...');
-      // TODO: Add checkout logic here (payment gateway, order submission, etc.)
-
-      // For now, clear cart and close modal
-      localStorage.removeItem('cart');
-      updateCartCount();
-      document.getElementById('cartModal').style.display = 'none';
+      alert("Checkout functionality is not implemented yet.");
     });
+
   </script>
 
 </body>
