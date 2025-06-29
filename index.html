@@ -1,220 +1,537 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Golden Hive Honey</title>
-  <!-- Firebase App + Firestore -->
+  <title>GOLDEN HIVE HONEY</title>
+
+  <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
     body {
+      font-family: 'Zilla Slab', serif;
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #fffdf5;
+      padding: 0;
+      background-color: #FFFFFF;
     }
 
-    /* Layout containers */
-    .container {
-      display: flex;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      width: 180px;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 20px;
-      height: 100vh;
-      box-sizing: border-box;
-    }
-
-    .sidebar a {
-      color: #fff;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 15px;
-    }
-
-    /* Main Content */
-    .main-content {
-      flex: 1;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    header {
+    .header-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      background-color: #E5E4E2;
       display: flex;
       align-items: center;
-      margin-bottom: 20px;
+      justify-content: center;
+      z-index: 1000;
     }
 
-    .menu-btn {
-      font-size: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-
-    .cart {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      cursor: pointer;
-    }
-
-    .products h2 {
-      margin-top: 0;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
-
-    .product-card {
-      background: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      padding: 15px;
+    .header-title {
+      font-family: 'Zilla Slab', serif;
+      font-size: 26px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #9B59B6, #007BFF, #2E8B57, #9B59B6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+      white-space: nowrap;
       text-align: center;
     }
 
-    .product-card img {
-      max-width: 100%;
-      border-radius: 4px;
-      margin-bottom: 10px;
-    }
-
-    .product-card h3 {
-      margin: 10px 0 5px;
-    }
-
-    .product-card p {
-      margin: 5px 0 15px;
-    }
-
-    .product-card button {
-      background: #e0a800;
+    .menu-button {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #6A5ACD;
+      color: #F4C2C2;
       border: none;
-      padding: 10px 20px;
-      color: #fff;
-      border-radius: 4px;
+      border-radius: 0px;
+      cursor: pointer;
+      height: 48px;
+      width: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      padding: 0;
+    }
+
+    .menu {
+      position: fixed;
+      top: 48px;
+      left: 0;
+      width: 150px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #F4C2C2;
+      padding: 20px;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      height: auto;
+      min-height: 100px;
+      z-index: 999;
+    }
+
+    .menu.show {
+      transform: translateX(0);
+    }
+
+    .menu a {
+      display: block;
+      color: white;
+      margin-bottom: 15px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    h1 {
+      text-align: center;
+      color: #6200ea;
+      margin-top: 80px;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    form input,
+    form select,
+    form button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    form button {
+      background-color: #6200ea;
+      color: white;
+      border: none;
       cursor: pointer;
       font-weight: bold;
     }
+
+    form button:hover {
+      background-color: #3700b3;
+    }
+
+    #bookingMessage {
+      text-align: center;
+      font-weight: bold;
+      color: green;
+      margin-top: 20px;
+    }
+
+    .gallery-category {
+      margin-top: 40px;
+    }
+
+    .gallery-category h3 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 22px;
+      color: #6200ea;
+      text-transform: uppercase;
+    }
+
+    .gallery-wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 10px;
+    }
+
+    .gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+    .gallery-grid img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+    }
+
+    .content-section {
+      display: none;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    .menu a.admin-button {
+      background-color: #6A0DAD;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: bold;
+      display: block;
+      margin: 50px auto 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-align: center;
+      width: fit-content;
+    }
+
+    .menu a.admin-button:hover {
+      background-color: #3700b3;
+    }
+
+    .location-button {
+      position: absolute;
+      right: 0px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #6A5ACD;
+      color: red;
+      border: none;
+      padding: 0;
+      border-radius: 0px;
+      cursor: pointer;
+      height: 48px;
+      width: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      text-decoration: none;
+    }
+
+    .separator-line {
+  border-bottom: 2px solid purple;
+  margin: 20px 0;
+    }
   </style>
 </head>
+
 <body>
-  <!-- Sidebar Navigation -->
-  <div class="sidebar" id="sidebar">
-    <a href="index.html" onclick="closeSidebar()">Home</a>
-    <a href="login.html" onclick="closeSidebar()">Login</a>
-    <a href="dashboard.html" onclick="closeSidebar()">Admin</a>
+
+  <div class="header-bar">
+    <button class="menu-button" onclick="toggleMenu()">☰</button>
+    <div class="header-title">GOLDEN HIVE HONEY</div>
+    <a href="https://maps.app.goo.gl/VvuhaWJN3XzGXDJf6" target="_blank" class="location-button">📍</a>
   </div>
 
-  <!-- Main Container -->
-  <div class="container">
-    <div class="main-content">
-      <header>
-        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-        <h1>Golden Hive Honey</h1>
-      </header>
+  <!-- ✅ Gallery Section (Now Wrapped) -->
+  <div id="gallerySection" class="content-section active">
+    <h2 style="text-align:center; margin-top:60px;"></h2>
+    <div id="galleryDisplay"></div>
+  </div>
 
-      <div class="cart" onclick="viewCart()">
-        🛒 <span id="cart-count">0</span>
-      </div>
+  <!-- ✅ Menu -->
+<div class="menu" id="menu">
+  <!-- Menu Links -->
+  <a onclick="showSection('gallerySection'); closeMenu();" href="javascript:void(0);"> 🍯 PRODUCTS</a>
+  <a onclick="showSection('reviewsSection'); closeMenu();" href="javascript:void(0);">⭐️ REVIEWS</a>
 
-      <main>
-        <section class="products">
-          <h2>Our Honey Products</h2>
-          <div class="product-grid" id="product-grid">
-            <!-- dynamically loaded product cards -->
-          </div>
-        </section>
-      </main>
+  <!-- Logout Button -->
+  <a onclick="logoutUser(); closeMenu();" 
+     style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:red; color:white; border-radius:6px; cursor:pointer; text-decoration:none; width:80%; font-weight:bold;" 
+     href="javascript:void(0);">
+     LOGOUT
+  </a>
+
+  <!-- Admin Button -->
+  <a onclick="login(); closeMenu();" class="admin-button"
+     style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:#6200ea; color:white; border-radius:6px; text-decoration:none; width:80%; font-weight:bold;" 
+     href="javascript:void(0);">
+     ADMIN
+  </a>
+</div>
+
+<div id="reviewsSection" class="content-section">
+  <h1 style="text-align:center; color:#6200ea;">CLIENT REVIEWS</h1>
+
+  <form id="reviewForm" style="max-width:500px; margin:10px auto; text-align:center;">
+    <input type="text" id="reviewName" placeholder="Your Name" required
+      style="width:100%; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;" />
+
+    <textarea id="reviewComment" placeholder="Write your review..." required
+      style="width:100%; height:80px; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;"></textarea>
+
+    <div id="starRating" style="font-size:24px; margin-bottom:10px; cursor:pointer; color:#ccc;">
+      <span data-value="1">★</span>
+      <span data-value="2">★</span>
+      <span data-value="3">★</span>
+      <span data-value="4">★</span>
+      <span data-value="5">★</span>
     </div>
-  </div>
 
-  <!-- Scripts -->
+    <button type="submit"
+      style="background-color:#6200ea; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer;">Submit
+      Review</button>
+  </form>
+
+  <p id="reviewSubmitMsg" style="text-align:center; color:green;"></p>
+
+  <!-- Container where reviews will be loaded -->
+  <div id="reviewsContainer" style="max-width:600px; margin:20px auto;"></div>
+</div>
+
+  <!-- ✅ Scripts -->
   <script>
-    // Initialize Firebase (use same config as in your dashboard page)
+    let currentUser = null;
+
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID",
-      // ...other config
-    };
+  apiKey: "AIzaSyChRsOpY7cKI9bZRShd2xdaI2c32PMegao",
+  authDomain: "ttthairstylist-walk-in-pay.firebaseapp.com",
+  projectId: "ttthairstylist-walk-in-pay",
+  storageBucket: "ttthairstylist-walk-in-pay.firebasestorage.app",
+  messagingSenderId: "814414276994",
+  appId: "1:814414276994:web:824311282ff087fd06079b"
+};
+
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // Toggle sidebar
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-    }
-    function closeSidebar() {
-      document.getElementById('sidebar').classList.remove('open');
-    }
+    firebase.auth().onAuthStateChanged(user => {
+  if (!user) {
+    window.location.href = 'login.html';
+  } else {
+    currentUser = user;
+    loadReviews(currentUser);  // keep this if you still want to load reviews
+  }
+});
 
-    // Fetch and render products from Firestore
-    function renderProducts() {
-      const grid = document.getElementById('product-grid');
-      grid.innerHTML = '<p>Loading products...</p>';
+    function login() {
+      const email = prompt('Enter admin email:');
+      const password = prompt('Enter admin password:');
 
-      db.collection('products').orderBy('name')
-        .get()
-        .then(snapshot => {
-          grid.innerHTML = '';
-          if (snapshot.empty) {
-            grid.innerHTML = '<p>No products available.</p>';
-            return;
-          }
-
-          snapshot.forEach(doc => {
-            const { name, price, imageUrl } = doc.data();
-            const card = document.createElement('div');
-            card.classList.add('product-card');
-
-            card.innerHTML = `
-              <img src="${imageUrl}" alt="${name}" />
-              <h3>${name}</h3>
-              <p>$${price.toFixed(2)}</p>
-              <button onclick="addToCart('${name}', ${price})">
-                Add to Cart
-              </button>
-            `;
-            grid.appendChild(card);
-          });
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(() => {
+          window.location.href = 'dashboard.html';
         })
-        .catch(err => {
-          console.error('Error loading products:', err);
-          grid.innerHTML = '<p>Failed to load products.</p>';
+        .catch((error) => {
+          alert('Authentication failed: ' + error.message);
         });
     }
 
-    // Cart functions
-    function addToCart(name, price) {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push({ name, price });
-      localStorage.setItem('cart', JSON.stringify(cart));
-      updateCartCount();
+      function toggleMenu() {
+  const menu = document.getElementById('menu');
+  menu.classList.toggle('show');
+}
+
+function closeMenu() {
+  const menu = document.getElementById('menu');
+  menu.classList.remove('show');
+}
+
+    function loadGallery(containerId) {
+      const galleryContainer = document.getElementById(containerId);
+      galleryContainer.innerHTML = '';
+
+      db.collection('gallery').onSnapshot((querySnapshot) => {
+        galleryContainer.innerHTML = '';
+
+        const categories = {};
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const imageUrl = data.url;
+          const category = data.category || 'Uncategorized';
+
+          if (!categories[category]) {
+            categories[category] = [];
+          }
+          categories[category].push(imageUrl);
+        });
+
+        for (const category in categories) {
+          galleryContainer.innerHTML += `
+            <div class="gallery-category">
+              <h3>${category}</h3>
+              <div class="gallery-wrapper">
+                <div class="gallery-grid" id="gallery-${category}"></div>
+              </div>
+            </div>
+          `;
+
+          const categoryContainer = document.getElementById(`gallery-${category}`);
+          categories[category].forEach((imageUrl) => {
+            categoryContainer.innerHTML += `
+              <div>
+                <img src="${imageUrl}" alt="Design" style="margin-bottom:10px;">
+              </div>
+            `;
+          });
+        }
+      });
     }
 
-    function updateCartCount() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      document.getElementById('cart-count').textContent = cart.length;
+    window.onload = function () {
+      loadGallery('galleryDisplay');
     }
 
-    function viewCart() {
-      alert('Viewing Cart...');
+// Assume firebase is initialized and 'db' and 'auth' are set up
+
+let selectedRating = 0;
+
+// Star rating UI logic
+document.querySelectorAll('#starRating span').forEach(star => {
+  star.addEventListener('click', () => {
+    selectedRating = parseInt(star.getAttribute('data-value'));
+    document.querySelectorAll('#starRating span').forEach(s => {
+      s.style.color = parseInt(s.getAttribute('data-value')) <= selectedRating ? '#f39c12' : '#ccc';
+    });
+  });
+});
+
+// Submit review
+document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    alert("You must be logged in to submit a review.");
+    return;
+  }
+
+  const name = document.getElementById('reviewName').value.trim();
+  const comment = document.getElementById('reviewComment').value.trim();
+  const msg = document.getElementById('reviewSubmitMsg');
+
+  if (!name || !comment || selectedRating === 0) {
+    msg.style.color = "red";
+    msg.textContent = "Please fill all fields and select a star rating.";
+    return;
+  }
+
+  try {
+    await db.collection('reviews').add({
+      name,
+      comment,
+      rating: selectedRating,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      uid: user.uid
+    });
+
+    msg.style.color = "green";
+    msg.textContent = "Thank you for your review!";
+    document.getElementById('reviewForm').reset();
+    selectedRating = 0;
+    document.querySelectorAll('#starRating span').forEach(s => s.style.color = '#ccc');
+
+  } catch (error) {
+    console.error("Error submitting review:", error);
+    msg.style.color = "red";
+    msg.textContent = "Error submitting review.";
+  }
+});
+
+function loadReviews(user) {
+  const container = document.getElementById('reviewsContainer');
+  container.innerHTML = "<p>Loading reviews...</p>";
+
+  db.collection('reviews').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+    if (snapshot.empty) {
+      container.innerHTML = "<p>No reviews yet.</p>";
+      return;
     }
 
-    // On page load
-    window.onload = function() {
-      updateCartCount();
-      renderProducts();
-    };
+    container.innerHTML = '';
+    snapshot.forEach(doc => {
+      const d = doc.data();
+      const isOwner = user && d.uid === user.uid;
+
+      // Set star color based on rating value
+      let stars = '';
+      for (let i = 1; i <= 5; i++) {
+        // If the current index is less than or equal to the rating, make it gold
+        stars += `<span style="color: ${i <= d.rating ? '#f39c12' : '#ccc'};">★</span>`;
+      }
+
+      container.innerHTML += `
+        <div style="background:#fff; border:1px solid #eee; padding:10px; margin-bottom:10px;">
+          <div><strong>${d.name}</strong></div>
+          <div>${stars}</div> <!-- Display stars based on rating -->
+          <div>${d.comment}</div>
+          ${isOwner ? `<button onclick="deleteReview('${doc.id}')" style="color:red; cursor:pointer;">Delete</button>` : ''}
+        </div>
+      `;
+    });
+  });
+}
+
+function deleteReview(docId) {
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    alert('You must be logged in to delete reviews.');
+    return;
+  }
+
+  db.collection('reviews').doc(docId).get().then(doc => {
+    if (!doc.exists) {
+      alert("Review not found.");
+      return;
+    }
+
+    const data = doc.data();
+    if (data.uid !== user.uid) {
+      alert("You can only delete your own reviews.");
+      return;
+    }
+
+    // If the review belongs to the current user, delete it
+    db.collection('reviews').doc(docId).delete()
+      .then(() => alert("Review deleted."))
+      .catch(error => alert("Failed to delete review: " + error.message));
+  }).catch(error => {
+    alert("Error fetching review: " + error.message);
+  });
+}
+
+    document.addEventListener('DOMContentLoaded', function () {
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      firebase.auth().signOut()
+        .then(() => {
+          window.location.href = 'login.html';
+        })
+        .catch((error) => {
+          console.error("Logout error:", error);
+          alert("Failed to log out.");
+        });
+    });
+  }
+});
+
+    function logoutUser() {
+  firebase.auth().signOut()
+    .then(() => {
+      window.location.href = 'login.html'; // or wherever you want after logout
+    })
+    .catch(error => {
+      alert('Logout failed: ' + error.message);
+    });
+}
+
+
+
   </script>
+
 </body>
+
 </html>
