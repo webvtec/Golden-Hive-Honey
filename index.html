@@ -9,19 +9,30 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: #fffdf5;
+    }
+
+    /* Layout containers */
+    .container {
       display: flex;
     }
 
-    /* Sidebar */
+    /* Sidebar (hidden by default on small screens) */
     .sidebar {
       width: 180px;
       background-color: #f5b301;
       padding: 1rem;
       height: 100vh;
       box-sizing: border-box;
-      display: flex;
+      display: none;
       flex-direction: column;
-      align-items: flex-start;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+    }
+
+    .sidebar.active {
+      display: flex;
     }
 
     .sidebar a {
@@ -31,27 +42,37 @@
       font-weight: bold;
     }
 
-    /* Main content area */
-    .main-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
     /* Header */
     header {
       background-color: #f5b301;
-      padding: 0.5rem;
+      padding: 0.3rem 1rem;
       color: #fff;
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     header h1 {
       font-size: 1.4rem;
-      margin: 0.5rem 0;
+      margin: 0;
+      text-align: center;
+      flex: 1;
     }
 
-    /* Product section */
+    .menu-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Main content */
+    .main-content {
+      margin-left: 0;
+      padding: 1rem;
+    }
+
     .products {
       padding: 2rem;
     }
@@ -91,48 +112,75 @@
     button:hover {
       background-color: #d49e00;
     }
+
+    @media (min-width: 768px) {
+      .sidebar {
+        position: relative;
+        display: flex !important;
+      }
+
+      .main-content {
+        margin-left: 180px;
+      }
+
+      .menu-btn {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
 
   <!-- Sidebar -->
-  <div class="sidebar">
-    <a href="login.html">Login</a>
-    <a href="dashboard.html">Admin</a>
+  <div class="sidebar" id="sidebar">
+    <a href="login.html" onclick="closeSidebar()">Login</a>
+    <a href="dashboard.html" onclick="closeSidebar()">Admin</a>
   </div>
 
-  <!-- Main content -->
-  <div class="main-content">
-    <header>
-      <h1>Golden Hive Honey</h1>
-    </header>
+  <!-- Main Container -->
+  <div class="container">
+    <div class="main-content">
+      <header>
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <h1>Golden Hive Honey</h1>
+      </header>
 
-    <main>
-      <section class="products">
-        <h2>Our Honey Products</h2>
-        <div class="product-grid">
-          <div class="product-card">
-            <img src="images/honey1.jpg" alt="Wildflower Honey" />
-            <h3>Wildflower Honey</h3>
-            <p>$12.99</p>
-            <button onclick="addToCart('Wildflower Honey', 12.99)">Add to Cart</button>
+      <main>
+        <section class="products">
+          <h2>Our Honey Products</h2>
+          <div class="product-grid">
+            <div class="product-card">
+              <img src="images/honey1.jpg" alt="Wildflower Honey" />
+              <h3>Wildflower Honey</h3>
+              <p>$12.99</p>
+              <button onclick="addToCart('Wildflower Honey', 12.99)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+              <img src="images/honey2.jpg" alt="Clover Honey" />
+              <h3>Clover Honey</h3>
+              <p>$10.99</p>
+              <button onclick="addToCart('Clover Honey', 10.99)">Add to Cart</button>
+            </div>
+            <!-- Add more products as needed -->
           </div>
-          <div class="product-card">
-            <img src="images/honey2.jpg" alt="Clover Honey" />
-            <h3>Clover Honey</h3>
-            <p>$10.99</p>
-            <button onclick="addToCart('Clover Honey', 10.99)">Add to Cart</button>
-          </div>
-          <!-- Add more product-card blocks here -->
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </div>
   </div>
 
   <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
+    }
+
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('active');
+    }
+
     function addToCart(name, price) {
       alert(`${name} added to cart!`);
-      // Optional: store in localStorage or update cart page
+      // Optional: store in localStorage
     }
   </script>
 </body>
