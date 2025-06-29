@@ -16,54 +16,50 @@
       display: flex;
     }
 
-    /* Sidebar (hidden by default on small screens) */
     /* Sidebar */
-/* Sidebar */
-.sidebar {
-  width: 180px;
-  background-color: rgba(0, 0, 0, 0.7); /* Dark transparent background */
-  padding: 4rem 1rem 1rem; /* Add some top padding to move links down a bit */
-  height: 100vh;
-  box-sizing: border-box;
-  display: none;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-}
+    .sidebar {
+      width: 180px;
+      background-color: rgba(0, 0, 0, 0.7); /* Dark transparent background */
+      padding: 4rem 1rem 1rem; /* Add some top padding to move links down a bit */
+      height: 100vh;
+      box-sizing: border-box;
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+    }
 
-/* Adjust positioning of the links */
-.sidebar a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
 
-/* Sidebar active state */
-.sidebar.active {
-  display: flex;
-}
+    .sidebar.active {
+      display: flex;
+    }
 
     /* Header */
     header {
-  background-color: #f5b301;
-  padding: 0.3rem;
-  height: 3rem;
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+      background-color: #f5b301;
+      padding: 0.3rem;
+      height: 3rem;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-  margin: 0;          /* Remove margin */
-  width: 100vw;       /* Full viewport width */
-  position: fixed;    /* Fix at top */
-  top: 0;
-  left: 0;
-  z-index: 1000;      /* On top of other elements */
-  box-sizing: border-box; /* Include padding in width */
-}
+      margin: 0;
+      width: 100vw;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      box-sizing: border-box;
+    }
 
     header h1 {
       font-size: 1.4rem;
@@ -73,24 +69,45 @@
     }
 
     .menu-btn {
-  background-color: #809e00; /* Different background color */
-  border: none;
-  font-size: 1.5rem;
-  color: white;
-  cursor: pointer;
-  height: 3rem;
-  border-radius: 0; /* Ensures no rounded corners */
-  padding: 0.5rem 1rem; /* Adjust padding for better shape */
-  margin: 0; /* Ensure no margin for touching the top */
-  position: absolute; /* Position relative to the header */
-  top: 0; /* Touches the top of the screen */
-  left: 0; /* Keeps it left aligned */
-  z-index: 1001; /* Ensure it's above other content */
-}
+      background-color: #809e00;
+      border: none;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+      height: 3rem;
+      border-radius: 0;
+      padding: 0.5rem 1rem;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1001;
+    }
 
-.menu-btn:hover {
-  background-color: #f5b301; /* Change to header color on hover */
-}
+    .menu-btn:hover {
+      background-color: #f5b301;
+    }
+
+    /* Cart Icon */
+    .cart {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      background-color: #f5b301;
+      border-radius: 50%;
+      padding: 0.5rem;
+      color: white;
+    }
+
+    .cart span {
+      margin-left: 0.5rem;
+      font-weight: bold;
+      font-size: 1rem;
+    }
 
     /* Main content */
     .main-content {
@@ -103,16 +120,16 @@
     }
 
     .product-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);  /* 2 items per row */
-  gap: 20px;
-}
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2 items per row */
+      gap: 20px;
+    }
 
-@media (min-width: 768px) {
-  .product-grid {
-    grid-template-columns: repeat(3, 1fr);  /* 3 items per row for larger screens */
-  }
-}
+    @media (min-width: 768px) {
+      .product-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 items per row for larger screens */
+      }
+    }
 
     .product-card {
       background: #fff;
@@ -176,6 +193,10 @@
         <h1>Golden Hive Honey</h1>
       </header>
 
+      <div class="cart" onclick="viewCart()">
+        🛒 <span id="cart-count">0</span> <!-- Cart icon with item count -->
+      </div>
+
       <main>
         <section class="products">
           <h2>Our Honey Products</h2>
@@ -200,18 +221,46 @@
   </div>
 
   <script>
+    // Toggle sidebar visibility
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
       sidebar.classList.toggle('active');
     }
 
+    // Close sidebar
     function closeSidebar() {
       document.getElementById('sidebar').classList.remove('active');
     }
 
+    // Add item to cart
     function addToCart(name, price) {
-      alert(`${name} added to cart!`);
-      // Optional: store in localStorage
+      // Get current cart from localStorage
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      // Add the new item to the cart
+      cart.push({ name: name, price: price });
+
+      // Save updated cart back to localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      // Update cart count displayed in the header
+      updateCartCount();
+    }
+
+    // Update the cart count displayed in the cart icon
+    function updateCartCount() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      document.getElementById('cart-count').textContent = cart.length;
+    }
+
+    // Function to view the cart (this can be replaced with a modal or navigation to a cart page)
+    function viewCart() {
+      alert('Viewing Cart...');
+    }
+
+    // Initialize cart count when the page loads
+    window.onload = function() {
+      updateCartCount();
     }
   </script>
 </body>
