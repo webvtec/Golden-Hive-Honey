@@ -7,17 +7,14 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #fff8e1; /* light honey background */
+      background-color: #fff8e1; /* light honey */
       color: #333;
-      margin: 0;
-      padding: 20px;
+      margin: 0; padding: 20px;
     }
-
     h1 {
       text-align: center;
-      color: #d4a017; /* honey gold */
+      color: #d4a017;
     }
-
     #addItemForm {
       max-width: 500px;
       margin: 20px auto;
@@ -25,8 +22,8 @@
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      display: none; /* hidden until logged in */
     }
-
     #addItemForm input,
     #addItemForm select,
     #addItemForm button {
@@ -36,51 +33,104 @@
       border: 1px solid #555;
       border-radius: 6px;
       box-sizing: border-box;
-      font-size: 16px;
     }
-
     #addItemForm button {
       background-color: #d4a017;
       color: white;
       font-weight: bold;
       cursor: pointer;
       border: none;
-      transition: background-color 0.3s ease;
     }
-
     #addItemForm button:hover {
       background-color: #b8860b;
+    }
+    #userInfo {
+      max-width: 500px;
+      margin: 10px auto;
+      text-align: center;
+      color: #6200ea;
+    }
+    #logoutBtn {
+      cursor: pointer;
+      color: #d4a017;
+      background: none;
+      border: none;
+      font-weight: bold;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    #loginContainer {
+      max-width: 400px;
+      margin: 40px auto;
+      background: #fce8a8;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    #loginContainer input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    #loginContainer button {
+      background-color: #d4a017;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      width: 100%;
+    }
+    #loginContainer button:hover {
+      background-color: #b8860b;
+    }
+    #errorMsg {
+      color: red;
+      margin-bottom: 10px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <h1>Add New Product</h1>
+  <h1>Dashboard - Add New Product</h1>
+
+  <div id="userInfo" style="display:none;">
+    Logged in as: <span id="userEmail"></span><br />
+    <button id="logoutBtn">Logout</button>
+  </div>
+
+  <div id="loginContainer">
+    <div id="errorMsg"></div>
+    <input type="email" id="loginEmail" placeholder="Email" required />
+    <input type="password" id="loginPassword" placeholder="Password" required />
+    <button id="loginBtn">Login</button>
+  </div>
 
   <div id="addItemForm">
-    <input type="text" id="itemNameInput" placeholder="Enter item name" required autocomplete="off" />
-
-    <!-- Text input to allow comma, dot, normal keyboard -->
-    <input type="text" id="itemPriceInput" placeholder="Enter price (e.g., 1,200.50)" required autocomplete="off" />
-
-    <input type="text" id="photoUrlInput" placeholder="Enter photo URL" required autocomplete="off" />
-
+    <input type="text" id="itemNameInput" placeholder="Enter item name" required />
+    <input type="text" id="itemPriceInput" placeholder="Enter price (e.g., 1,200.50)" required />
+    <input type="text" id="photoUrlInput" placeholder="Enter photo URL" required />
     <select id="photoCategorySelect" required>
       <option value="">Select category</option>
       <option value="Honey">Honey</option>
       <option value="Wax">Wax</option>
       <option value="Gifts">Gifts</option>
     </select>
-
-    <button type="button" onclick="addPhotoUrl()">Add Item</button>
+    <button id="addItemBtn">Add Item</button>
   </div>
 
-  <!-- Firebase scripts -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
   <script>
-    // Firebase config
+    // Your Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyDccI-TdbCXAJr6CD77X4yOUOfezef7Oks",
       authDomain: "delivery-login-3a084.firebaseapp.com",
@@ -90,16 +140,80 @@
       appId: "1:201998621677:web:b51c3aeb2debe18b4aa5e4"
     };
 
-    // Initialize Firebase only if not initialized
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
     const db = firebase.firestore();
 
-    function addPhotoUrl() {
+    // Elements
+    const userInfoDiv = document.getElementById('userInfo');
+    const userEmailSpan = document.getElementById('userEmail');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    const loginContainer = document.getElementById('loginContainer');
+    const loginEmail = document.getElementById('loginEmail');
+    const loginPassword = document.getElementById('loginPassword');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorMsg = document.getElementById('errorMsg');
+
+    const addItemForm = document.getElementById('addItemForm');
+    const addItemBtn = document.getElementById('addItemBtn');
+
+    // Monitor auth state
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        // User is signed in
+        userEmailSpan.textContent = user.email;
+        userInfoDiv.style.display = 'block';
+        loginContainer.style.display = 'none';
+        addItemForm.style.display = 'block';
+        errorMsg.textContent = '';
+      } else {
+        // Not signed in
+        userInfoDiv.style.display = 'none';
+        loginContainer.style.display = 'block';
+        addItemForm.style.display = 'none';
+      }
+    });
+
+    // Login button click
+    loginBtn.addEventListener('click', () => {
+      const email = loginEmail.value.trim();
+      const password = loginPassword.value;
+
+      if (!email || !password) {
+        errorMsg.textContent = 'Please enter email and password.';
+        return;
+      }
+
+      errorMsg.textContent = '';
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          loginEmail.value = '';
+          loginPassword.value = '';
+        })
+        .catch(error => {
+          console.error('Login error:', error);
+          errorMsg.textContent = 'Login failed: ' + error.message;
+        });
+    });
+
+    // Logout button click
+    logoutBtn.addEventListener('click', () => {
+      auth.signOut();
+    });
+
+    // Add item button click
+    addItemBtn.addEventListener('click', () => {
+      const user = auth.currentUser;
+      if (!user) {
+        alert('You must be logged in to add items.');
+        return;
+      }
+
       const name = document.getElementById('itemNameInput').value.trim();
       const rawPrice = document.getElementById('itemPriceInput').value.trim();
-      const price = parseFloat(rawPrice.replace(/,/g, '')); // Remove commas before parse
+      const price = parseFloat(rawPrice.replace(/,/g, ''));
       const url = document.getElementById('photoUrlInput').value.trim();
       const category = document.getElementById('photoCategorySelect').value.trim();
 
@@ -112,21 +226,21 @@
         name: name,
         price: price,
         imageUrl: url,
-        category: category
+        category: category,
+        uid: user.uid
       })
       .then(() => {
         alert('Item added successfully!');
-        // Clear inputs
         document.getElementById('itemNameInput').value = '';
         document.getElementById('itemPriceInput').value = '';
         document.getElementById('photoUrlInput').value = '';
         document.getElementById('photoCategorySelect').value = '';
       })
-      .catch((error) => {
+      .catch(error => {
         console.error('Error adding item:', error);
-        alert('Failed to add item: ' + error.message);
+        alert('Failed to add item.');
       });
-    }
+    });
   </script>
 
 </body>
