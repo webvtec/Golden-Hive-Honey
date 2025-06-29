@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GOLDEN HIVE HONEY</title>
 
   <!-- Firebase Scripts -->
@@ -11,14 +11,14 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;700&display=swap" rel="stylesheet" />
 
   <style>
     body {
       font-family: 'Zilla Slab', serif;
       margin: 0;
       padding: 0;
-      background-color: #FFFFFF;
+      background-color: #fff;
     }
 
     .header-bar {
@@ -27,7 +27,7 @@
       left: 0;
       right: 0;
       height: 48px;
-      background-color: #E5E4E2;
+      background-color: #e5e4e2;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -38,7 +38,7 @@
       font-family: 'Zilla Slab', serif;
       font-size: 26px;
       font-weight: bold;
-      background: linear-gradient(90deg, #9B59B6, #007BFF, #2E8B57, #9B59B6);
+      background: linear-gradient(90deg, #9b59b6, #007bff, #2e8b57, #9b59b6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
@@ -51,10 +51,9 @@
       left: 0;
       top: 50%;
       transform: translateY(-50%);
-      background-color: #6A5ACD;
-      color: #F4C2C2;
+      background-color: #6a5acd;
+      color: #f4c2c2;
       border: none;
-      border-radius: 0px;
       cursor: pointer;
       height: 48px;
       width: 45px;
@@ -71,11 +70,10 @@
       left: 0;
       width: 150px;
       background-color: rgba(0, 0, 0, 0.8);
-      color: #F4C2C2;
+      color: #f4c2c2;
       padding: 20px;
       transform: translateX(-100%);
       transition: transform 0.3s ease;
-      height: auto;
       min-height: 100px;
       z-index: 999;
     }
@@ -99,43 +97,12 @@
       margin-top: 80px;
     }
 
-    form {
-      max-width: 400px;
-      margin: 0 auto;
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    .content-section {
+      display: none;
     }
 
-    form input,
-    form select,
-    form button {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-
-    form button {
-      background-color: #6200ea;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    form button:hover {
-      background-color: #3700b3;
-    }
-
-    #bookingMessage {
-      text-align: center;
-      font-weight: bold;
-      color: green;
-      margin-top: 20px;
+    .content-section.active {
+      display: block;
     }
 
     .gallery-category {
@@ -163,72 +130,11 @@
       margin-bottom: 30px;
     }
 
-    .gallery-grid img {
-      width: 100%;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      height: 230px;
-      object-fit: cover;
-    }
-
-    .content-section {
-      display: none;
-    }
-
-    .content-section.active {
-      display: block;
-    }
-
-    .menu a.admin-button {
-      background-color: #6A0DAD;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-family: 'Poppins', sans-serif;
-      font-weight: bold;
-      display: block;
-      margin: 50px auto 0;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      text-align: center;
-      width: fit-content;
-    }
-
-    .menu a.admin-button:hover {
-      background-color: #3700b3;
-    }
-
-    .location-button {
-      position: absolute;
-      right: 0px;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: #6A5ACD;
-      color: red;
-      border: none;
-      padding: 0;
-      border-radius: 0px;
-      cursor: pointer;
-      height: 48px;
-      width: 45px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      text-decoration: none;
-    }
-
-    .separator-line {
-      border-bottom: 2px solid purple;
-      margin: 20px 0;
-    }
-
     .product-card {
       background: #fff;
       border: 1px solid #eee;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       padding: 10px;
       text-align: center;
     }
@@ -265,42 +171,35 @@
       font-weight: bold;
     }
 
-    /* Cart Modal Styling */
+    /* Cart Modal Styles */
     #cartModal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0,0,0,0.5);
       display: none;
-      z-index: 2000;
-    }
-
-    #cartModal > div {
-      background: white;
-      max-width: 320px;
-      margin: 80px auto;
-      border-radius: 12px;
-      padding: 15px 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      font-family: 'Zilla Slab', serif;
+      position: fixed;
+      top: 10%;
+      right: 10px;
+      width: 320px;
       max-height: 70vh;
       overflow-y: auto;
+      background: #fff;
+      border: 2px solid #6200ea;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      z-index: 1100;
+      padding: 15px;
     }
 
     #cartModal h2 {
-      margin-top: 0;
       text-align: center;
+      margin-top: 0;
       color: #6200ea;
     }
 
-    #cartItemsContainer > div {
+    #cartItemsContainer div {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 8px 0;
+      margin-bottom: 12px;
       border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
     }
 
     #cartItemsContainer img {
@@ -309,36 +208,42 @@
       object-fit: cover;
       border-radius: 6px;
       margin-right: 10px;
+      flex-shrink: 0;
     }
 
     #cartItemsContainer span {
-      font-weight: normal;
-    }
-
-    #cartItemsContainer div > div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       flex-grow: 1;
+      font-weight: 500;
     }
 
-    #cartButtons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-    }
-
-    #cartButtons button {
-      flex: 1;
-      padding: 10px 0;
+    #cartItemsContainer span.price {
       font-weight: bold;
+      margin-left: 10px;
+      white-space: nowrap;
+    }
+
+    #cartTotal {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 15px;
+      color: #6200ea;
+    }
+
+    #closeCartBtn,
+    #checkoutBtn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      font-family: 'Zilla Slab', serif;
-      font-size: 16px;
-      margin: 0 5px;
-      transition: background-color 0.3s ease;
+      font-weight: bold;
+    }
+
+    #closeCartBtn {
+      background-color: #ccc;
+      color: #333;
     }
 
     #checkoutBtn {
@@ -346,19 +251,13 @@
       color: white;
     }
 
+    #closeCartBtn:hover {
+      background-color: #bbb;
+    }
+
     #checkoutBtn:hover {
       background-color: #3700b3;
     }
-
-    #closeCartBtn {
-      background-color: #ccc;
-      color: black;
-    }
-
-    #closeCartBtn:hover {
-      background-color: #999;
-    }
-
   </style>
 </head>
 
@@ -372,7 +271,7 @@
 
   <!-- Gallery Section -->
   <div id="gallerySection" class="content-section active">
-    <h2 style="text-align:center; margin-top:60px;"></h2>
+    <h2 style="text-align:center; margin-top:60px;">Our Products</h2>
     <div id="galleryDisplay"></div>
   </div>
 
@@ -381,19 +280,24 @@
     <a onclick="showSection('gallerySection'); closeMenu();" href="javascript:void(0);"> 🍯 PRODUCTS</a>
     <a onclick="showSection('reviewsSection'); closeMenu();" href="javascript:void(0);">⭐️ REVIEWS</a>
 
-    <a onclick="logoutUser(); closeMenu();" style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:red; color:white; border-radius:6px; cursor:pointer; text-decoration:none; width:80%; font-weight:bold;" href="javascript:void(0);">LOGOUT</a>
+    <a onclick="logoutUser(); closeMenu();" style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:red; color:white; border-radius:6px; cursor:pointer; text-decoration:none; width:80%; font-weight:bold;" href="javascript:void(0);">
+      LOGOUT
+    </a>
 
-    <a onclick="login(); closeMenu();" class="admin-button" style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:#6200ea; color:white; border-radius:6px; text-decoration:none; width:80%; font-weight:bold;" href="javascript:void(0);">ADMIN</a>
+    <a onclick="login(); closeMenu();" class="admin-button" style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:#6200ea; color:white; border-radius:6px; text-decoration:none; width:80%; font-weight:bold;" href="javascript:void(0);">
+      ADMIN
+    </a>
   </div>
 
-  <!-- Reviews Section -->
   <div id="reviewsSection" class="content-section">
     <h1 style="text-align:center; color:#6200ea;">CLIENT REVIEWS</h1>
 
     <form id="reviewForm" style="max-width:500px; margin:10px auto; text-align:center;">
-      <input type="text" id="reviewName" placeholder="Your Name" required style="width:100%; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;" />
+      <input type="text" id="reviewName" placeholder="Your Name" required
+        style="width:100%; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;" />
 
-      <textarea id="reviewComment" placeholder="Write your review..." required style="width:100%; height:80px; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;"></textarea>
+      <textarea id="reviewComment" placeholder="Write your review..." required
+        style="width:100%; height:80px; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;"></textarea>
 
       <div id="starRating" style="font-size:24px; margin-bottom:10px; cursor:pointer; color:#ccc;">
         <span data-value="1">★</span>
@@ -403,7 +307,8 @@
         <span data-value="5">★</span>
       </div>
 
-      <button type="submit" style="background-color:#6200ea; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer;">Submit Review</button>
+      <button type="submit" style="background-color:#6200ea; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer;">Submit
+        Review</button>
     </form>
 
     <p id="reviewSubmitMsg" style="text-align:center; color:green;"></p>
@@ -413,15 +318,11 @@
 
   <!-- Cart Modal -->
   <div id="cartModal">
-    <div>
-      <h2>Your Cart</h2>
-      <div id="cartItemsContainer"></div>
-      <div id="cartTotal" style="text-align:right; font-weight:bold; margin-top: 10px;"></div>
-      <div id="cartButtons">
-        <button id="closeCartBtn">Close</button>
-        <button id="checkoutBtn">Checkout</button>
-      </div>
-    </div>
+    <h2>Your Cart</h2>
+    <div id="cartItemsContainer"></div>
+    <div id="cartTotal"></div>
+    <button id="checkoutBtn">Checkout</button>
+    <button id="closeCartBtn">Close</button>
   </div>
 
   <script>
@@ -482,7 +383,7 @@
 
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          const imageUrl = data.url;
+          const imageUrl = data.url || '';
           const name = data.name || 'Unnamed';
           const price = data.price || 0;
           const category = data.category || 'Uncategorized';
@@ -511,23 +412,41 @@
                 <div class="product-info">
                   <div class="product-name">${item.name}</div>
                   <div class="product-price">$${item.price.toFixed(2)}</div>
-                  <button onclick="addToCart('${item.name}', ${item.price}, '${item.imageUrl}')">Add to Cart</button>
+                  <button class="add-to-cart-btn" 
+                    data-name="${item.name}" 
+                    data-price="${item.price}" 
+                    data-imageurl="${item.imageUrl}">
+                    Add to Cart
+                  </button>
                 </div>
               </div>
             `;
           });
         }
+
+        // Setup event listeners for Add to Cart buttons
+        setupAddToCartButtons();
       });
     }
 
-    window.onload = function() {
+    function setupAddToCartButtons() {
+      document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          const name = button.getAttribute('data-name');
+          const price = parseFloat(button.getAttribute('data-price'));
+          const imageUrl = button.getAttribute('data-imageurl');
+          addToCart(name, price, imageUrl);
+        });
+      });
+    }
+
+    window.onload = function () {
       loadGallery('galleryDisplay');
       updateCartCount();
     };
 
+    // Reviews star rating logic
     let selectedRating = 0;
-
-    // Star rating UI logic
     document.querySelectorAll('#starRating span').forEach(star => {
       star.addEventListener('click', () => {
         selectedRating = parseInt(star.getAttribute('data-value'));
@@ -537,7 +456,7 @@
       });
     });
 
-    // Submit review
+    // Submit review form
     document.getElementById('reviewForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -567,8 +486,7 @@
         });
 
         msg.style.color = "green";
-        msg.textContent = "Review submitted!";
-
+        msg.textContent = "Thank you for your review!";
         document.getElementById('reviewForm').reset();
         selectedRating = 0;
         document.querySelectorAll('#starRating span').forEach(s => s.style.color = '#ccc');
@@ -636,36 +554,18 @@
         if (doc.exists && doc.data().uid === user.uid) {
           db.collection('reviews').doc(docId).delete()
             .then(() => {
-              alert('Review deleted.');
               loadReviews(user);
             })
-            .catch(error => {
-              alert('Error deleting review: ' + error.message);
-            });
+            .catch(err => alert("Error deleting review: " + err.message));
         } else {
           alert("You can only delete your own reviews.");
         }
       });
     }
 
-    // Show section
-    function showSection(sectionId) {
-      document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.remove('active');
-      });
-      document.getElementById(sectionId).classList.add('active');
-    }
-
-    // Logout
-    function logoutUser() {
-      firebase.auth().signOut().then(() => {
-        window.location.href = 'login.html';
-      });
-    }
-
-    // CART FUNCTIONALITY
-
+    // Cart logic
     function addToCart(name, price, imageUrl) {
+      console.log("Adding to cart:", { name, price, imageUrl }); // debug
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
       cart.push({ name, price, imageUrl });
       localStorage.setItem('cart', JSON.stringify(cart));
@@ -674,65 +574,37 @@
     }
 
     function updateCartCount() {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const count = cart.length;
-      document.getElementById('cart-count').textContent = count;
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      document.getElementById('cart-count').textContent = cart.length;
     }
 
     function viewCart() {
-      const modal = document.getElementById('cartModal');
-      const container = document.getElementById('cartItemsContainer');
-      const totalElem = document.getElementById('cartTotal');
-      container.innerHTML = '';
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartModal = document.getElementById('cartModal');
+      const cartItemsContainer = document.getElementById('cartItemsContainer');
+      const cartTotal = document.getElementById('cartTotal');
 
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cartItemsContainer.innerHTML = '';
+
       if (cart.length === 0) {
-        container.innerHTML = '<p>Your cart is empty.</p>';
-        totalElem.textContent = '';
+        cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+        cartTotal.textContent = '';
       } else {
         let total = 0;
-
-        cart.forEach((item, index) => {
+        cart.forEach(item => {
           total += item.price;
-
-          const itemDiv = document.createElement('div');
-          itemDiv.style.display = 'flex';
-          itemDiv.style.alignItems = 'center';
-          itemDiv.style.justifyContent = 'space-between';
-          itemDiv.style.padding = '8px 0';
-          itemDiv.style.borderBottom = '1px solid #eee';
-
-          const img = document.createElement('img');
-          img.src = item.imageUrl;
-          img.alt = item.name;
-
-          const infoDiv = document.createElement('div');
-          infoDiv.style.flexGrow = '1';
-          infoDiv.style.display = 'flex';
-          infoDiv.style.justifyContent = 'space-between';
-          infoDiv.style.alignItems = 'center';
-
-          const nameSpan = document.createElement('span');
-          nameSpan.textContent = item.name;
-
-          const priceSpan = document.createElement('span');
-          priceSpan.textContent = `$${item.price.toFixed(2)}`;
-          priceSpan.style.marginLeft = '10px';
-          priceSpan.style.fontWeight = 'bold';
-
-          infoDiv.appendChild(nameSpan);
-          infoDiv.appendChild(priceSpan);
-
-          itemDiv.appendChild(img);
-          itemDiv.appendChild(infoDiv);
-
-          container.appendChild(itemDiv);
+          cartItemsContainer.innerHTML += `
+            <div>
+              <img src="${item.imageUrl}" alt="${item.name}" />
+              <span>${item.name}</span>
+              <span class="price">$${item.price.toFixed(2)}</span>
+            </div>
+          `;
         });
-
-        totalElem.textContent = `Total: $${total.toFixed(2)}`;
+        cartTotal.textContent = `Total: $${total.toFixed(2)}`;
       }
 
-      modal.style.display = 'block';
+      cartModal.style.display = 'block';
     }
 
     document.getElementById('closeCartBtn').addEventListener('click', () => {
@@ -740,11 +612,23 @@
     });
 
     document.getElementById('checkoutBtn').addEventListener('click', () => {
-      alert("Checkout functionality is not implemented yet.");
+      alert('Checkout functionality coming soon!');
     });
 
-  </script>
+    // Show / hide sections
+    function showSection(sectionId) {
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+    }
 
+    function logoutUser() {
+      firebase.auth().signOut().then(() => {
+        window.location.href = 'login.html';
+      });
+    }
+  </script>
 </body>
 
 </html>
