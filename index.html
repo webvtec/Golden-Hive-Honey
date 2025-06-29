@@ -399,7 +399,6 @@ function closeMenu() {
       if (!categories[category]) {
         categories[category] = [];
       }
-      // Instead of just pushing the URL, push the whole product data
       categories[category].push({ imageUrl, name, price });
     });
 
@@ -414,18 +413,21 @@ function closeMenu() {
       `;
 
       const categoryContainer = document.getElementById(`gallery-${category}`);
-categories[category].forEach((item) => {
-  categoryContainer.innerHTML += `
-    <div class="product-card">
-      <img src="${item.imageUrl}" alt="${item.name}">
-      <div class="product-info">
-        <div class="product-name">${item.name}</div>
-        <div class="product-price">$${item.price.toFixed(2)}</div>
-        <button onclick="addToCart('${item.name}', ${item.price})">Add to Cart</button>
-      </div>
-    </div>
-  `;
-});
+      categories[category].forEach((item) => {
+        categoryContainer.innerHTML += `
+          <div class="product-card">
+            <img src="${item.imageUrl}" alt="${item.name}">
+            <div class="product-info">
+              <div class="product-name">${item.name}</div>
+              <div class="product-price">$${item.price.toFixed(2)}</div>
+              <button onclick="addToCart('${item.name}', ${item.price})">Add to Cart</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+  });
+}
 
     window.onload = function() {
   loadGallery('galleryDisplay');
@@ -609,11 +611,6 @@ function updateCartCount() {
     message += `${index + 1}. ${item.name} - $${item.price.toFixed(2)}\\n`;
   });
   alert(message);
-}
-
-function updateCartCount() {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  document.getElementById('cart-count').textContent = cart.length;
 }
 
     function showSection(sectionId) {
