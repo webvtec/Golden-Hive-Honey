@@ -393,10 +393,16 @@ function closeMenu() {
     window.onload = function() {
   loadGallery('galleryDisplay');
   updateCartCount();
-  if (currentUser) {
+};
+
+firebase.auth().onAuthStateChanged(user => {
+  if (!user) {
+    window.location.href = 'login.html';
+  } else {
+    currentUser = user;
     loadReviews(currentUser);
   }
-};
+});
 
 // Assume firebase is initialized and 'db' and 'auth' are set up
 
