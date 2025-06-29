@@ -92,13 +92,18 @@
   color: white;
   cursor: pointer;
   height: 3rem;
+  width: 3rem; /* Ensure width for proper alignment */
   border-radius: 0;
   margin: 0;
   position: absolute;
   top: 0;
   right: 0;
   z-index: 1002;
-    }
+  
+  display: flex; /* Enables flexbox */
+  align-items: center; /* Centers content vertically */
+  justify-content: center; /* Centers content horizontally */
+}
 
     .cart span {
       margin-left: 0.5rem;
