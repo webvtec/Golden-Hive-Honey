@@ -3,86 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Honey Gallery</title>
-
+  <title>Dashboard - Add Item</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #fff8e1;
       color: #333;
-      margin: 0; padding: 20px;
+      margin: 0;
+      padding: 20px;
     }
-    h3 {
-      color: #d4a017; /* honey gold */
-      margin-bottom: 10px;
-    }
-    #galleryDisplay {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-    .product-card {
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      padding: 10px;
-      background-color: #fce8a8;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .product-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 6px;
-      margin-bottom: 8px;
-    }
-    .product-info {
-      width: 100%;
+    h1 {
       text-align: center;
+      color: #d4a017;
     }
-    .product-name {
-      font-weight: bold;
-      margin-bottom: 4px;
-      font-size: 1.1em;
+    #addItemForm {
+      max-width: 500px;
+      margin: 20px auto;
+      background-color: #fce8a8;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
     }
-    .product-price {
-      color: #a55e00;
-      margin-bottom: 8px;
-      font-weight: 600;
+    #addItemForm input,
+    #addItemForm select,
+    #addItemForm button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 1rem;
     }
-    .product-card button {
+    #addItemForm button {
       background-color: #d4a017;
-      border: none;
       color: white;
-      padding: 8px 12px;
-      border-radius: 5px;
-      cursor: pointer;
       font-weight: bold;
-      transition: background-color 0.3s ease;
+      cursor: pointer;
+      border: none;
     }
-    .product-card button:hover {
+    #addItemForm button:hover {
       background-color: #b8860b;
     }
   </style>
 </head>
 <body>
 
-  <h1 style="text-align:center; color:#d4a017;">Honey Products Gallery</h1>
+  <h1>Add New Product</h1>
 
-  <div id="galleryDisplay"></div>
+  <div id="addItemForm">
+    <input type="text" id="itemNameInput" placeholder="Enter item name" required />
+    <!-- Text input allows normal keyboard, commas, dots -->
+    <input type="text" id="itemPriceInput" placeholder="Enter price (e.g., 1,200.50)" required />
+    <input type="text" id="photoUrlInput" placeholder="Enter photo URL" required />
+    <select id="photoCategorySelect" required>
+      <option value="">Select category</option>
+      <option value="Honey">Honey</option>
+      <option value="Wax">Wax</option>
+      <option value="Gifts">Gifts</option>
+    </select>
+    <button onclick="addPhotoUrl()">Add Item</button>
+  </div>
 
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
   <script>
-    // Your Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyDccI-TdbCXAJr6CD77X4yOUOfezef7Oks",
       authDomain: "delivery-login-3a084.firebaseapp.com",
@@ -95,99 +81,37 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    function addToCart(name, price, imageUrl) {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push({ name, price, imageUrl });
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert(`${name} added to cart.`);
-      updateCartCount();
-    }
+    function addPhotoUrl() {
+      const name = document.getElementById('itemNameInput').value.trim();
+      const rawPrice = document.getElementById('itemPriceInput').value.trim();
+      const price = parseFloat(rawPrice.replace(/,/g, ''));
+      const url = document.getElementById('photoUrlInput').value.trim();
+      const category = document.getElementById('photoCategorySelect').value.trim();
 
-    function updateCartCount() {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const count = cart.length;
-      // Assuming you have an element with id 'cart-count' somewhere to show count
-      const cartCountElem = document.getElementById('cart-count');
-      if(cartCountElem) {
-        cartCountElem.textContent = count;
+      if (!name || isNaN(price) || !url || !category) {
+        alert('Please fill in all fields with valid data.');
+        return;
       }
-    }
 
-    function loadGallery(containerId) {
-      const galleryContainer = document.getElementById(containerId);
-      galleryContainer.innerHTML = '';
-
-      db.collection('gallery').onSnapshot((querySnapshot) => {
-        galleryContainer.innerHTML = '';
-
-        const categories = {};
-
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          const imageUrl = data.imageUrl;
-          const name = data.name || 'Unnamed';
-          const price = data.price || 0;
-          const category = data.category || 'Uncategorized';
-
-          if (!categories[category]) {
-            categories[category] = [];
-          }
-          categories[category].push({ imageUrl, name, price });
-        });
-
-        for (const category in categories) {
-          const categorySection = document.createElement('div');
-          categorySection.classList.add('gallery-category');
-
-          const h3 = document.createElement('h3');
-          h3.textContent = category;
-          categorySection.appendChild(h3);
-
-          const galleryGrid = document.createElement('div');
-          galleryGrid.classList.add('gallery-grid');
-
-          categories[category].forEach(item => {
-            const productCard = document.createElement('div');
-            productCard.classList.add('product-card');
-
-            const img = document.createElement('img');
-            img.src = item.imageUrl;
-            img.alt = item.name;
-            productCard.appendChild(img);
-
-            const productInfo = document.createElement('div');
-            productInfo.classList.add('product-info');
-
-            const productName = document.createElement('div');
-            productName.classList.add('product-name');
-            productName.textContent = item.name;
-
-            const productPrice = document.createElement('div');
-            productPrice.classList.add('product-price');
-            productPrice.textContent = `$${item.price.toFixed(2)}`;
-
-            const addToCartBtn = document.createElement('button');
-            addToCartBtn.textContent = 'Add to Cart';
-            addToCartBtn.onclick = () => addToCart(item.name, item.price, item.imageUrl);
-
-            productInfo.appendChild(productName);
-            productInfo.appendChild(productPrice);
-            productInfo.appendChild(addToCartBtn);
-
-            productCard.appendChild(productInfo);
-            galleryGrid.appendChild(productCard);
-          });
-
-          categorySection.appendChild(galleryGrid);
-          galleryContainer.appendChild(categorySection);
-        }
+      db.collection('gallery').add({
+        name: name,
+        price: price,
+        imageUrl: url,
+        category: category
+      })
+      .then(() => {
+        alert('Item added successfully!');
+        document.getElementById('itemNameInput').value = '';
+        document.getElementById('itemPriceInput').value = '';
+        document.getElementById('photoUrlInput').value = '';
+        document.getElementById('photoCategorySelect').value = '';
+      })
+      .catch((error) => {
+        console.error('Error adding item:', error);
+        alert('Failed to add item.');
       });
     }
-
-    window.onload = function() {
-      loadGallery('galleryDisplay');
-      updateCartCount();
-    }
   </script>
+
 </body>
 </html>
