@@ -3,42 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GOLDEN HIVE HONEY</title>
+  <title>Golden Hive Honey</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
       background: #fffdf5;
+      display: flex;
     }
 
+    /* Sidebar */
+    .sidebar {
+      width: 180px;
+      background-color: #f5b301;
+      padding: 1rem;
+      height: 100vh;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+
+    /* Main content area */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
     header {
-  background-color: #f5b301;
-  padding: 0.5rem;
-  color: #fff;
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center;     /* Center vertically */
-  position: relative;
-}
+      background-color: #f5b301;
+      padding: 0.5rem;
+      color: #fff;
+      text-align: center;
+    }
 
-header h1 {
-  font-size: 1.4rem;
-  margin: 0;
-}
+    header h1 {
+      font-size: 1.4rem;
+      margin: 0.5rem 0;
+    }
 
-header nav {
-  position: absolute;
-  right: 1rem;
-}
-
-header nav a {
-  font-size: 0.95rem;
-  color: white;
-  text-decoration: none;
-  margin-left: 1rem;
-}
-
+    /* Product section */
     .products {
       padding: 2rem;
     }
@@ -81,41 +94,45 @@ header nav a {
   </style>
 </head>
 <body>
-  <header>
-    <h1>GOLDEN HIVE HONEY</h1>
-    <nav>
-      <a href="login.html">Login</a>
-      <a href="dashboard.html">Admin</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="products">
-      <h2>Our Honey Products</h2>
-      <div class="product-grid">
-        <!-- Example Product 1 -->
-        <div class="product-card">
-          <img src="images/honey1.jpg" alt="Wildflower Honey" />
-          <h3>Wildflower Honey</h3>
-          <p>$12.99</p>
-          <button onclick="addToCart('Wildflower Honey', 12.99)">Add to Cart</button>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="login.html">Login</a>
+    <a href="dashboard.html">Admin</a>
+  </div>
+
+  <!-- Main content -->
+  <div class="main-content">
+    <header>
+      <h1>Golden Hive Honey</h1>
+    </header>
+
+    <main>
+      <section class="products">
+        <h2>Our Honey Products</h2>
+        <div class="product-grid">
+          <div class="product-card">
+            <img src="images/honey1.jpg" alt="Wildflower Honey" />
+            <h3>Wildflower Honey</h3>
+            <p>$12.99</p>
+            <button onclick="addToCart('Wildflower Honey', 12.99)">Add to Cart</button>
+          </div>
+          <div class="product-card">
+            <img src="images/honey2.jpg" alt="Clover Honey" />
+            <h3>Clover Honey</h3>
+            <p>$10.99</p>
+            <button onclick="addToCart('Clover Honey', 10.99)">Add to Cart</button>
+          </div>
+          <!-- Add more product-card blocks here -->
         </div>
-        <!-- Example Product 2 -->
-        <div class="product-card">
-          <img src="images/honey2.jpg" alt="Clover Honey" />
-          <h3>Clover Honey</h3>
-          <p>$10.99</p>
-          <button onclick="addToCart('Clover Honey', 10.99)">Add to Cart</button>
-        </div>
-        <!-- Add more products here -->
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
+  </div>
 
   <script>
     function addToCart(name, price) {
       alert(`${name} added to cart!`);
-      // TODO: Add to localStorage or cart logic
+      // Optional: store in localStorage or update cart page
     }
   </script>
 </body>
