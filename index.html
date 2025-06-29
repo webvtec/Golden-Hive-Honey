@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Golden Hive Honey</title>
+  <!-- Firebase App + Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <style>
     body {
       margin: 0;
@@ -19,170 +22,94 @@
     /* Sidebar */
     .sidebar {
       width: 180px;
-      background-color: rgba(0, 0, 0, 0.7); /* Dark transparent background */
-      padding: 4rem 1rem 1rem; /* Add some top padding to move links down a bit */
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
       height: 100vh;
       box-sizing: border-box;
-      display: none;
-      flex-direction: column;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 999;
     }
 
     .sidebar a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-
-    .sidebar.active {
-      display: flex;
-    }
-
-    /* Header */
-    header {
-      background-color: #f5b301;
-      padding: 0.3rem;
-      height: 3rem;
       color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 15px;
+    }
 
-      margin: 0;
-      width: 100vw;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 20px;
       box-sizing: border-box;
     }
 
-    header h1 {
-      font-size: 1.4rem;
-      margin: 0;
-      text-align: center;
-      flex: 1;
+    header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
     }
 
     .menu-btn {
-      background-color: #809e00;
+      font-size: 24px;
+      background: none;
       border: none;
-      font-size: 1.5rem;
-      color: white;
       cursor: pointer;
-      height: 3rem;
-      border-radius: 0;
-      padding: 0.5rem 1rem;
-      margin: 0;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1001;
+      margin-right: 10px;
     }
 
-    /* Cart Icon */
     .cart {
-  background-color: #809e00;
-  border: none;
-  font-size: 1.5rem;
-  color: white;
-  cursor: pointer;
-  height: 3rem;
-  width: 3rem; /* Ensure width for proper alignment */
-  border-radius: 0;
-  margin: 0;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1002;
-  
-  display: flex; /* Enables flexbox */
-  align-items: center; /* Centers content vertically */
-  justify-content: center; /* Centers content horizontally */
-}
-
-    .cart span {
-      margin-left: 0.5rem;
-      font-weight: bold;
-      font-size: 1rem;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
     }
 
-    /* Main content */
-    .main-content {
-      margin-left: 0;
-      padding: 1rem;
-    }
-
-    .products {
-      padding: 2rem;
+    .products h2 {
+      margin-top: 0;
     }
 
     .product-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr); /* 2 items per row */
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
     }
 
-    @media (min-width: 768px) {
-      .product-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 items per row for larger screens */
-      }
-    }
-
     .product-card {
-      background: #fff;
-      padding: 1rem;
-      border: 1px solid #eee;
+      background: #ffffff;
       border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 15px;
       text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
     .product-card img {
-      width: 100%;
-      height: auto;
+      max-width: 100%;
       border-radius: 4px;
+      margin-bottom: 10px;
     }
 
-    button {
-      margin-top: 10px;
-      padding: 0.5rem 1rem;
-      background-color: #f5b301;
+    .product-card h3 {
+      margin: 10px 0 5px;
+    }
+
+    .product-card p {
+      margin: 5px 0 15px;
+    }
+
+    .product-card button {
+      background: #e0a800;
       border: none;
-      color: white;
-      cursor: pointer;
+      padding: 10px 20px;
+      color: #fff;
       border-radius: 4px;
+      cursor: pointer;
       font-weight: bold;
-    }
-
-    button:hover {
-      background-color: #d49e00;
-    }
-
-    @media (min-width: 768px) {
-      .sidebar {
-        position: relative;
-        display: flex !important;
-      }
-
-      .main-content {
-        margin-left: 180px;
-      }
-
-      .menu-btn {
-        display: none;
-      }
     }
   </style>
 </head>
 <body>
-
-  <!-- Sidebar -->
+  <!-- Sidebar Navigation -->
   <div class="sidebar" id="sidebar">
+    <a href="index.html" onclick="closeSidebar()">Home</a>
     <a href="login.html" onclick="closeSidebar()">Login</a>
     <a href="dashboard.html" onclick="closeSidebar()">Admin</a>
   </div>
@@ -196,74 +123,98 @@
       </header>
 
       <div class="cart" onclick="viewCart()">
-        🛒 <span id="cart-count">0</span> <!-- Cart icon with item count -->
+        🛒 <span id="cart-count">0</span>
       </div>
 
       <main>
         <section class="products">
           <h2>Our Honey Products</h2>
-          <div class="product-grid">
-            <div class="product-card">
-              <img src="images/honey1.jpg" alt="Wildflower Honey" />
-              <h3>Wildflower Honey</h3>
-              <p>$12.99</p>
-              <button onclick="addToCart('Wildflower Honey', 12.99)">Add to Cart</button>
-            </div>
-            <div class="product-card">
-              <img src="images/honey2.jpg" alt="Clover Honey" />
-              <h3>Clover Honey</h3>
-              <p>$10.99</p>
-              <button onclick="addToCart('Clover Honey', 10.99)">Add to Cart</button>
-            </div>
-            <!-- Add more products as needed -->
+          <div class="product-grid" id="product-grid">
+            <!-- dynamically loaded product cards -->
           </div>
         </section>
       </main>
     </div>
   </div>
 
+  <!-- Scripts -->
   <script>
-    // Toggle sidebar visibility
+    // Initialize Firebase (use same config as in your dashboard page)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      // ...other config
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Toggle sidebar
     function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('active');
+      document.getElementById('sidebar').classList.toggle('open');
     }
-
-    // Close sidebar
     function closeSidebar() {
-      document.getElementById('sidebar').classList.remove('active');
+      document.getElementById('sidebar').classList.remove('open');
     }
 
-    // Add item to cart
+    // Fetch and render products from Firestore
+    function renderProducts() {
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = '<p>Loading products...</p>';
+
+      db.collection('products').orderBy('name')
+        .get()
+        .then(snapshot => {
+          grid.innerHTML = '';
+          if (snapshot.empty) {
+            grid.innerHTML = '<p>No products available.</p>';
+            return;
+          }
+
+          snapshot.forEach(doc => {
+            const { name, price, imageUrl } = doc.data();
+            const card = document.createElement('div');
+            card.classList.add('product-card');
+
+            card.innerHTML = `
+              <img src="${imageUrl}" alt="${name}" />
+              <h3>${name}</h3>
+              <p>$${price.toFixed(2)}</p>
+              <button onclick="addToCart('${name}', ${price})">
+                Add to Cart
+              </button>
+            `;
+            grid.appendChild(card);
+          });
+        })
+        .catch(err => {
+          console.error('Error loading products:', err);
+          grid.innerHTML = '<p>Failed to load products.</p>';
+        });
+    }
+
+    // Cart functions
     function addToCart(name, price) {
-      // Get current cart from localStorage
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-      // Add the new item to the cart
-      cart.push({ name: name, price: price });
-
-      // Save updated cart back to localStorage
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push({ name, price });
       localStorage.setItem('cart', JSON.stringify(cart));
-
-      // Update cart count displayed in the header
       updateCartCount();
     }
 
-    // Update the cart count displayed in the cart icon
     function updateCartCount() {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
       document.getElementById('cart-count').textContent = cart.length;
     }
 
-    // Function to view the cart (this can be replaced with a modal or navigation to a cart page)
     function viewCart() {
       alert('Viewing Cart...');
     }
 
-    // Initialize cart count when the page loads
+    // On page load
     window.onload = function() {
       updateCartCount();
-    }
+      renderProducts();
+    };
   </script>
 </body>
 </html>
