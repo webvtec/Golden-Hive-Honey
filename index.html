@@ -18,10 +18,11 @@
 
     /* Sidebar (hidden by default on small screens) */
     /* Sidebar */
+/* Sidebar */
 .sidebar {
   width: 180px;
   background-color: rgba(0, 0, 0, 0.7); /* Dark transparent background */
-  padding: 1rem;
+  padding: 2rem 1rem 1rem; /* Add some top padding to move links down a bit */
   height: 100vh;
   box-sizing: border-box;
   display: none;
@@ -32,17 +33,12 @@
   z-index: 999;
 }
 
-/* Push links down in the sidebar */
+/* Adjust positioning of the links */
 .sidebar a {
   color: white;
   text-decoration: none;
   font-weight: bold;
   margin-bottom: 1rem;
-}
-
-/* Adding space between the links */
-.sidebar a:first-child {
-  margin-top: auto; /* Push Login and Admin down */
 }
 
 /* Sidebar active state */
