@@ -157,11 +157,11 @@
     }
 
     .gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin-bottom: 30px;
-}
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
 
     .gallery-grid img {
       width: 100%;
@@ -220,51 +220,50 @@
     }
 
     .separator-line {
-  border-bottom: 2px solid purple;
-  margin: 20px 0;
+      border-bottom: 2px solid purple;
+      margin: 20px 0;
     }
 
     .product-card {
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  padding: 10px;
-  text-align: center;
-}
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      text-align: center;
+    }
 
-.product-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 8px;
-}
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
 
-.product-info {
-  margin-top: 5px;
-}
+    .product-info {
+      margin-top: 5px;
+    }
 
-.product-name {
-  font-weight: bold;
-  margin-bottom: 4px;
-}
+    .product-name {
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
 
-.product-price {
-  color: #6200ea;
-  margin-bottom: 6px;
-}
+    .product-price {
+      color: #6200ea;
+      margin-bottom: 6px;
+    }
 
-.product-card button {
-  background-color: #6200ea;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
+    .product-card button {
+      background-color: #6200ea;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
   </style>
 </head>
 
@@ -283,79 +282,125 @@
   </div>
 
   <!-- ✅ Menu -->
-<div class="menu" id="menu">
-  <!-- Menu Links -->
-  <a onclick="showSection('gallerySection'); closeMenu();" href="javascript:void(0);"> 🍯 PRODUCTS</a>
-  <a onclick="showSection('reviewsSection'); closeMenu();" href="javascript:void(0);">⭐️ REVIEWS</a>
+  <div class="menu" id="menu">
+    <!-- Menu Links -->
+    <a onclick="showSection('gallerySection'); closeMenu();" href="javascript:void(0);"> 🍯 PRODUCTS</a>
+    <a onclick="showSection('reviewsSection'); closeMenu();" href="javascript:void(0);">⭐️ REVIEWS</a>
 
-  <!-- Logout Button -->
-  <a onclick="logoutUser(); closeMenu();" 
-     style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:red; color:white; border-radius:6px; cursor:pointer; text-decoration:none; width:80%; font-weight:bold;" 
-     href="javascript:void(0);">
-     LOGOUT
-  </a>
+    <!-- Logout Button -->
+    <a onclick="logoutUser(); closeMenu();"
+      style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:red; color:white; border-radius:6px; cursor:pointer; text-decoration:none; width:80%; font-weight:bold;"
+      href="javascript:void(0);">
+      LOGOUT
+    </a>
 
-  <!-- Admin Button -->
-  <a onclick="login(); closeMenu();" class="admin-button"
-     style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:#6200ea; color:white; border-radius:6px; text-decoration:none; width:80%; font-weight:bold;" 
-     href="javascript:void(0);">
-     ADMIN
-  </a>
-</div>
+    <!-- Admin Button -->
+    <a onclick="login(); closeMenu();" class="admin-button"
+      style="display:block; text-align:center; margin:10px auto; padding:10px 20px; background-color:#6200ea; color:white; border-radius:6px; text-decoration:none; width:80%; font-weight:bold;"
+      href="javascript:void(0);">
+      ADMIN
+    </a>
+  </div>
 
-<div id="reviewsSection" class="content-section">
-  <h1 style="text-align:center; color:#6200ea;">CLIENT REVIEWS</h1>
+  <div id="reviewsSection" class="content-section">
+    <h1 style="text-align:center; color:#6200ea;">CLIENT REVIEWS</h1>
 
-  <form id="reviewForm" style="max-width:500px; margin:10px auto; text-align:center;">
-    <input type="text" id="reviewName" placeholder="Your Name" required
-      style="width:100%; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;" />
+    <form id="reviewForm" style="max-width:500px; margin:10px auto; text-align:center;">
+      <input type="text" id="reviewName" placeholder="Your Name" required
+        style="width:100%; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;" />
 
-    <textarea id="reviewComment" placeholder="Write your review..." required
-      style="width:100%; height:80px; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;"></textarea>
+      <textarea id="reviewComment" placeholder="Write your review..." required
+        style="width:100%; height:80px; margin-bottom:10px; padding:10px; border-radius:6px; border:1px solid #ccc;"></textarea>
 
-    <div id="starRating" style="font-size:24px; margin-bottom:10px; cursor:pointer; color:#ccc;">
-      <span data-value="1">★</span>
-      <span data-value="2">★</span>
-      <span data-value="3">★</span>
-      <span data-value="4">★</span>
-      <span data-value="5">★</span>
+      <div id="starRating" style="font-size:24px; margin-bottom:10px; cursor:pointer; color:#ccc;">
+        <span data-value="1">★</span>
+        <span data-value="2">★</span>
+        <span data-value="3">★</span>
+        <span data-value="4">★</span>
+        <span data-value="5">★</span>
+      </div>
+
+      <button type="submit"
+        style="background-color:#6200ea; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer;">Submit
+        Review</button>
+    </form>
+
+    <p id="reviewSubmitMsg" style="text-align:center; color:green;"></p>
+
+    <!-- Container where reviews will be loaded -->
+    <div id="reviewsContainer" style="max-width:600px; margin:20px auto;"></div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div id="cartModal" style="
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  overflow-y: auto;
+  ">
+    <div style="
+    background: white;
+    max-width: 400px;
+    margin: 80px auto;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    font-family: 'Zilla Slab', serif;
+  ">
+      <h2 style="margin-top:0; text-align:center; color:#6200ea;">Your Cart</h2>
+      <div id="cartItemsContainer" style="max-height: 300px; overflow-y: auto; margin-bottom: 15px;">
+        <!-- Cart items will be rendered here -->
+      </div>
+      <button id="checkoutBtn" style="
+      width: 100%;
+      background-color: #6200ea;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+    ">Checkout</button>
+      <button id="closeCartBtn" style="
+      margin-top: 10px;
+      width: 100%;
+      background-color: #ccc;
+      color: #333;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    ">Close</button>
     </div>
-
-    <button type="submit"
-      style="background-color:#6200ea; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer;">Submit
-      Review</button>
-  </form>
-
-  <p id="reviewSubmitMsg" style="text-align:center; color:green;"></p>
-
-  <!-- Container where reviews will be loaded -->
-  <div id="reviewsContainer" style="max-width:600px; margin:20px auto;"></div>
-</div>
+  </div>
 
   <!-- ✅ Scripts -->
   <script>
     let currentUser = null;
 
     const firebaseConfig = {
-  apiKey: "AIzaSyDccI-TdbCXAJr6CD77X4yOUOfezef7Oks",
-  authDomain: "delivery-login-3a084.firebaseapp.com",
-  projectId: "delivery-login-3a084",
-  storageBucket: "delivery-login-3a084.firebasestorage.app",
-  messagingSenderId: "201998621677",
-  appId: "1:201998621677:web:b51c3aeb2debe18b4aa5e4"
-};
+      apiKey: "AIzaSyDccI-TdbCXAJr6CD77X4yOUOfezef7Oks",
+      authDomain: "delivery-login-3a084.firebaseapp.com",
+      projectId: "delivery-login-3a084",
+      storageBucket: "delivery-login-3a084.firebasestorage.app",
+      messagingSenderId: "201998621677",
+      appId: "1:201998621677:web:b51c3aeb2debe18b4aa5e4"
+    };
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
     firebase.auth().onAuthStateChanged(user => {
-  if (!user) {
-    window.location.href = 'login.html';
-  } else {
-    currentUser = user;
-    loadReviews(currentUser);  // keep this if you still want to load reviews
-  }
-});
+      if (!user) {
+        window.location.href = 'login.html';
+      } else {
+        currentUser = user;
+        loadReviews(currentUser);  // keep this if you still want to load reviews
+      }
+    });
 
     function login() {
       const email = prompt('Enter admin email:');
@@ -370,40 +415,40 @@
         });
     }
 
-      function toggleMenu() {
-  const menu = document.getElementById('menu');
-  menu.classList.toggle('show');
-}
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('show');
+    }
 
-function closeMenu() {
-  const menu = document.getElementById('menu');
-  menu.classList.remove('show');
-}
+    function closeMenu() {
+      const menu = document.getElementById('menu');
+      menu.classList.remove('show');
+    }
 
     function loadGallery(containerId) {
-  const galleryContainer = document.getElementById(containerId);
-  galleryContainer.innerHTML = '';
+      const galleryContainer = document.getElementById(containerId);
+      galleryContainer.innerHTML = '';
 
-  db.collection('gallery').onSnapshot((querySnapshot) => {
-    galleryContainer.innerHTML = '';
+      db.collection('gallery').onSnapshot((querySnapshot) => {
+        galleryContainer.innerHTML = '';
 
-    const categories = {};
+        const categories = {};
 
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      const imageUrl = data.url;
-      const name = data.name || 'Unnamed';
-      const price = data.price || 0;
-      const category = data.category || 'Uncategorized';
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const imageUrl = data.url;
+          const name = data.name || 'Unnamed';
+          const price = data.price || 0;
+          const category = data.category || 'Uncategorized';
 
-      if (!categories[category]) {
-        categories[category] = [];
-      }
-      categories[category].push({ imageUrl, name, price });
-    });
+          if (!categories[category]) {
+            categories[category] = [];
+          }
+          categories[category].push({ imageUrl, name, price });
+        });
 
-    for (const category in categories) {
-      galleryContainer.innerHTML += `
+        for (const category in categories) {
+          galleryContainer.innerHTML += `
         <div class="gallery-category">
           <h3>${category}</h3>
           <div class="gallery-wrapper">
@@ -412,9 +457,9 @@ function closeMenu() {
         </div>
       `;
 
-      const categoryContainer = document.getElementById(`gallery-${category}`);
-      categories[category].forEach((item) => {
-        categoryContainer.innerHTML += `
+          const categoryContainer = document.getElementById(`gallery-${category}`);
+          categories[category].forEach((item) => {
+            categoryContainer.innerHTML += `
           <div class="product-card">
             <img src="${item.imageUrl}" alt="${item.name}">
             <div class="product-info">
@@ -424,203 +469,191 @@ function closeMenu() {
             </div>
           </div>
         `;
+          });
+        }
       });
     }
-  });
-}
 
-    window.onload = function() {
-  loadGallery('galleryDisplay');
-  updateCartCount();
-};
+    window.onload = function () {
+      loadGallery('galleryDisplay');
+      updateCartCount();
+    };
 
-firebase.auth().onAuthStateChanged(user => {
-  if (!user) {
-    window.location.href = 'login.html';
-  } else {
-    currentUser = user;
-    loadReviews(currentUser);
-  }
-});
-
-// Assume firebase is initialized and 'db' and 'auth' are set up
-
-let selectedRating = 0;
-
-// Star rating UI logic
-document.querySelectorAll('#starRating span').forEach(star => {
-  star.addEventListener('click', () => {
-    selectedRating = parseInt(star.getAttribute('data-value'));
-    document.querySelectorAll('#starRating span').forEach(s => {
-      s.style.color = parseInt(s.getAttribute('data-value')) <= selectedRating ? '#f39c12' : '#ccc';
-    });
-  });
-});
-
-// Submit review
-document.getElementById('reviewForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const user = firebase.auth().currentUser;
-  if (!user) {
-    alert("You must be logged in to submit a review.");
-    return;
-  }
-
-  const name = document.getElementById('reviewName').value.trim();
-  const comment = document.getElementById('reviewComment').value.trim();
-  const msg = document.getElementById('reviewSubmitMsg');
-
-  if (!name || !comment || selectedRating === 0) {
-    msg.style.color = "red";
-    msg.textContent = "Please fill all fields and select a star rating.";
-    return;
-  }
-
-  try {
-    await db.collection('reviews').add({
-      name,
-      comment,
-      rating: selectedRating,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      uid: user.uid
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = 'login.html';
+      } else {
+        currentUser = user;
+        loadReviews(currentUser);
+      }
     });
 
-    msg.style.color = "green";
-    msg.textContent = "Thank you for your review!";
-    document.getElementById('reviewForm').reset();
-    selectedRating = 0;
-    document.querySelectorAll('#starRating span').forEach(s => s.style.color = '#ccc');
+    // Star rating UI logic
+    let selectedRating = 0;
+    document.querySelectorAll('#starRating span').forEach(star => {
+      star.addEventListener('click', () => {
+        selectedRating = parseInt(star.getAttribute('data-value'));
+        document.querySelectorAll('#starRating span').forEach(s => {
+          s.style.color = parseInt(s.getAttribute('data-value')) <= selectedRating ? '#f39c12' : '#ccc';
+        });
+      });
+    });
 
-  } catch (error) {
-    console.error("Error submitting review:", error);
-    msg.style.color = "red";
-    msg.textContent = "Error submitting review.";
-  }
-});
+    // Submit review
+    document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-function loadReviews(user) {
-  const container = document.getElementById('reviewsContainer');
-  container.innerHTML = "<p>Loading reviews...</p>";
-
-  db.collection('reviews').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-    if (snapshot.empty) {
-      container.innerHTML = "<p>No reviews yet.</p>";
-      return;
-    }
-
-    container.innerHTML = '';
-    snapshot.forEach(doc => {
-      const d = doc.data();
-      const isOwner = user && d.uid === user.uid;
-
-      // Set star color based on rating value
-      let stars = '';
-      for (let i = 1; i <= 5; i++) {
-        // If the current index is less than or equal to the rating, make it gold
-        stars += `<span style="color: ${i <= d.rating ? '#f39c12' : '#ccc'};">★</span>`;
+      const user = firebase.auth().currentUser;
+      if (!user) {
+        alert("You must be logged in to submit a review.");
+        return;
       }
 
-      container.innerHTML += `
-        <div style="background:#fff; border:1px solid #eee; padding:10px; margin-bottom:10px;">
-          <div><strong>${d.name}</strong></div>
-          <div>${stars}</div> <!-- Display stars based on rating -->
-          <div>${d.comment}</div>
-          ${isOwner ? `<button onclick="deleteReview('${doc.id}')" style="color:red; cursor:pointer;">Delete</button>` : ''}
-        </div>
-      `;
+      const name = document.getElementById('reviewName').value.trim();
+      const comment = document.getElementById('reviewComment').value.trim();
+      const msg = document.getElementById('reviewSubmitMsg');
+
+      if (!name || !comment || selectedRating === 0) {
+        msg.style.color = "red";
+        msg.textContent = "Please fill all fields and select a star rating.";
+        return;
+      }
+
+      try {
+        await db.collection('reviews').add({
+          name,
+          comment,
+          rating: selectedRating,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          uid: user.uid
+        });
+
+        msg.style.color = "green";
+        msg.textContent = "Thank you for your review!";
+        document.getElementById('reviewForm').reset();
+        selectedRating = 0;
+        document.querySelectorAll('#starRating span').forEach(s => s.style.color = '#ccc');
+
+      } catch (error) {
+        console.error("Error submitting review:", error);
+        msg.style.color = "red";
+        msg.textContent = "Error submitting review.";
+      }
     });
-  });
-}
 
-function deleteReview(docId) {
-  const user = firebase.auth().currentUser;
-  if (!user) {
-    alert('You must be logged in to delete reviews.');
-    return;
-  }
+    function loadReviews(user) {
+      const container = document.getElementById('reviewsContainer');
+      container.innerHTML = "<p>Loading reviews...</p>";
 
-  db.collection('reviews').doc(docId).get().then(doc => {
-    if (!doc.exists) {
-      alert("Review not found.");
-      return;
+      db.collection('reviews').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+        if (snapshot.empty) {
+          container.innerHTML = "<p>No reviews yet.</p>";
+          return;
+        }
+        container.innerHTML = '';
+        snapshot.forEach(doc => {
+          const data = doc.data();
+
+          let stars = "";
+          for (let i = 1; i <= 5; i++) {
+            stars += i <= data.rating ? "★" : "☆";
+          }
+
+          container.innerHTML += `
+            <div style="border-bottom:1px solid #eee; padding:10px 0;">
+              <strong>${data.name}</strong> <span style="color:#f39c12;">${stars}</span>
+              <p>${data.comment}</p>
+            </div>
+          `;
+        });
+      });
     }
-
-    const data = doc.data();
-    if (data.uid !== user.uid) {
-      alert("You can only delete your own reviews.");
-      return;
-    }
-
-    // If the review belongs to the current user, delete it
-    db.collection('reviews').doc(docId).delete()
-      .then(() => alert("Review deleted."))
-      .catch(error => alert("Failed to delete review: " + error.message));
-  }).catch(error => {
-    alert("Error fetching review: " + error.message);
-  });
-}
-
-    document.addEventListener('DOMContentLoaded', function () {
-  const logoutBtn = document.getElementById('logoutBtn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      firebase.auth().signOut()
-        .then(() => {
-          window.location.href = 'login.html';
-        })
-        .catch((error) => {
-          console.error("Logout error:", error);
-          alert("Failed to log out.");
-        });
-    });
-  }
-});
 
     function logoutUser() {
-  firebase.auth().signOut()
-    .then(() => {
-      window.location.href = 'login.html'; // or wherever you want after logout
-    })
-    .catch(error => {
-      alert('Logout failed: ' + error.message);
-    });
-}
-
-    function addToCart(name, price) {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  cart.push({ name, price });
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCartCount();
-  alert(`${name} added to cart!`);
-}
-
-function updateCartCount() {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  document.getElementById('cart-count').textContent = cart.length;
-}
-
-    function viewCart() {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  if (cart.length === 0) {
-    alert('Your cart is empty.');
-    return;
-  }
-  let message = 'Your cart items:\\n';
-  cart.forEach((item, index) => {
-    message += `${index + 1}. ${item.name} - $${item.price.toFixed(2)}\\n`;
-  });
-  alert(message);
-}
+      firebase.auth().signOut().then(() => {
+        window.location.href = 'login.html';
+      });
+    }
 
     function showSection(sectionId) {
-  document.querySelectorAll('.content-section').forEach(section =>
-    section.classList.remove('active')
-  );
-  document.getElementById(sectionId).classList.add('active');
-}
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+    }
 
+    // Cart related functions
 
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push({ name, price });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      alert(`${name} added to cart.`);
+    }
+
+    function updateCartCount() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      document.getElementById('cart-count').textContent = cart.length;
+    }
+
+    function viewCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartModal = document.getElementById('cartModal');
+      const container = document.getElementById('cartItemsContainer');
+
+      if (cart.length === 0) {
+        alert('Your cart is empty.');
+        return;
+      }
+
+      // Clear previous content
+      container.innerHTML = '';
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price;
+
+        const itemDiv = document.createElement('div');
+        itemDiv.style.display = 'flex';
+        itemDiv.style.justifyContent = 'space-between';
+        itemDiv.style.padding = '8px 0';
+        itemDiv.style.borderBottom = '1px solid #eee';
+
+        itemDiv.innerHTML = `
+          <span>${item.name}</span>
+          <span>$${item.price.toFixed(2)}</span>
+        `;
+
+        container.appendChild(itemDiv);
+      });
+
+      // Add total row
+      const totalDiv = document.createElement('div');
+      totalDiv.style.fontWeight = 'bold';
+      totalDiv.style.padding = '12px 0 0';
+      totalDiv.style.textAlign = 'right';
+      totalDiv.textContent = `Total: $${total.toFixed(2)}`;
+      container.appendChild(totalDiv);
+
+      // Show modal
+      cartModal.style.display = 'block';
+    }
+
+    document.getElementById('closeCartBtn').addEventListener('click', () => {
+      document.getElementById('cartModal').style.display = 'none';
+    });
+
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      alert('Proceeding to checkout...');
+      // TODO: Add checkout logic here (payment gateway, order submission, etc.)
+
+      // For now, clear cart and close modal
+      localStorage.removeItem('cart');
+      updateCartCount();
+      document.getElementById('cartModal').style.display = 'none';
+    });
   </script>
 
 </body>
