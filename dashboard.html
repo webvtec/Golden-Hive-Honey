@@ -1,136 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard - Golden Hive Honey</title>
-  <!-- Firebase App + Firestore -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADMIN DASHBOARD</title>
+
+  <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
-    body { font-family: Arial, sans-serif; background: #fffdf5; margin: 0; padding: 20px; }
-    h1 { margin-top: 0; }
-    .product-form, .product-list { max-width: 600px; margin-bottom: 40px; }
-    .product-form input { width: 100%; padding: 8px; margin: 5px 0; box-sizing: border-box; }
-    .product-form button { padding: 10px 20px; background: #e0a800; border: none; color: #fff; cursor: pointer; font-weight: bold; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    th { background: #f4f4f4; }
-    .actions button { margin-right: 5px; padding: 5px 10px; }
+    /* Styles remain unchanged */
+    body {
+      font-family: 'Zilla Slab', serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+        .header-bar {
+      background-color: #FFD1DC;
+      padding: 8px;
+      text-align: center;
+      font-size: 27px;
+      font-weight: bold;
+      color: #6200ea;
+        }
+
+    .top-menu {
+      display: flex;
+      justify-content: center;
+      background-color: #6200ea;
+      padding: 10px 0;
+    }
+    .top-menu button {
+      background-color: white;
+      color: #6200ea;
+      border: none;
+      padding: 6px 12px;
+      margin: 0 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .top-menu button:hover {
+      background-color: #FFD1DC;
+    }
+    .admin-container {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      color: #6200ea;
+      text-align: center;
+    }
+    input[type="text"], input[type="date"], input[type="time"], select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #6200ea;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    button:hover {
+      background-color: #3700b3;
+    }
+    .gallery-category {
+      margin-top: 40px;
+    }
+    .gallery-category h3 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 22px;
+      color: #6200ea;
+      text-transform: uppercase;
+    }
+    .gallery-wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 10px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .gallery-grid div {
+      position: relative;
+    }
+    .gallery-grid img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+    .remove-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #6200ea;
+      color: white;
+    }
+    .content-section {
+      display: none;
+    }
+    .content-section.active {
+      display: block;
+    }
+    .clear-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .clear-container input {
+      padding: 10px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
   </style>
 </head>
+
 <body>
-  <h1>Admin Dashboard</h1>
+  <div class="header-bar">ADMIN DASHBOARD</div>
 
-  <section class="product-form">
-    <h2>Add / Edit Product</h2>
-    <input type="text" id="product-id" placeholder="(Leave blank to add new)" hidden />
-    <input type="text" id="product-name" placeholder="Product Name" required />
-    <input type="number" id="product-price" placeholder="Price" step="0.01" required />
-    <input type="text" id="product-image" placeholder="Image URL" required />
-    <button onclick="saveProduct()">Save Product</button>
-  </section>
+  <div class="top-menu">
+    <button onclick="showSection('gallerySection')">GALLERY</button>
+    <button onclick="showSection('reservationsPage')">RESERVATIONS</button>
+    <button onclick="showSection('unavailableDaysSection')">UNAVAILABLE DAYS</button>
+  </div>
 
-  <section class="product-list">
-    <h2>Product List</h2>
-    <table>
-      <thead>
-        <tr><th>Name</th><th>Price</th><th>Image URL</th><th>Actions</th></tr>
-      </thead>
-      <tbody id="products-table-body">
-        <!-- Rows injected here -->
-      </tbody>
-    </table>
-  </section>
+  <!-- Gallery Management Page -->
+  <div id="gallerySection" class="admin-container content-section">
+    <h2>INPUT CLOUDINARY URL</h2>
+    <input type="text" id="photoUrlInput" placeholder="Enter image URL here">
+
+    <label for="photoCategorySelect">SELECT CATEGORY</label>
+<select id="photoCategorySelect">
+  <option value="SMALL">SMALL</option>
+  <option value="MEDIUM">MEDIUM</option>
+  <option value="LARGE">LARGE</option>
+  <option value="XL">XL</option>
+  <option value="XXL">XXL</option>
+</select>
+
+    <button onclick="addPhotoUrl()">Add Photo</button>
+
+    <h2></h2>
+    <div id="adminGallery"></div>
+  </div>
 
   <script>
-    // Initialize Firebase (same config as index.html)
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID"
-    };
+  apiKey: "AIzaSyChRsOpY7cKI9bZRShd2xdaI2c32PMegao",
+  authDomain: "ttthairstylist-walk-in-pay.firebaseapp.com",
+  projectId: "ttthairstylist-walk-in-pay",
+  storageBucket: "ttthairstylist-walk-in-pay.firebasestorage.app",
+  messagingSenderId: "814414276994",
+  appId: "1:814414276994:web:824311282ff087fd06079b"
+};
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    const formId = document.getElementById('product-id');
-    const formName = document.getElementById('product-name');
-    const formPrice = document.getElementById('product-price');
-    const formImage = document.getElementById('product-image');
-    const tableBody = document.getElementById('products-table-body');
+    function showSection(sectionId) {
+      document.querySelectorAll('.content-section').forEach(section =>
+        section.classList.remove('active')
+      );
+      document.getElementById(sectionId).classList.add('active');
+    }
 
-    // Fetch & display products
-    function loadProducts() {
-      tableBody.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
-      db.collection('products').orderBy('name').get()
-        .then(snapshot => {
-          tableBody.innerHTML = '';
-          snapshot.forEach(doc => {
-            const { name, price, imageUrl } = doc.data();
-            const row = document.createElement('tr');
-            row.innerHTML = `
-              <td>${name}</td>
-              <td>$${price.toFixed(2)}</td>
-              <td>${imageUrl}</td>
-              <td class="actions">
-                <button onclick="editProduct('${doc.id}', '${name}', ${price}, '${imageUrl}')">Edit</button>
-                <button onclick="deleteProduct('${doc.id}')">Delete</button>
-              </td>
-            `;
-            tableBody.appendChild(row);
-          });
+    function addPhotoUrl() {
+      const urlInput = document.getElementById('photoUrlInput');
+      const categorySelect = document.getElementById('photoCategorySelect');
+      const url = urlInput.value.trim();
+      const category = categorySelect.value.trim();
+
+      if (url === '' || category === '') {
+        alert('Please enter a valid image URL and select a category.');
+        return;
+      }
+
+      db.collection('gallery').add({ url: url, category: category })
+        .then(() => {
+          urlInput.value = '';
+          categorySelect.value = '';
+          alert('Photo added successfully!');
+        })
+        .catch(error => {
+          console.error("Error adding document: ", error);
+          alert('Error adding photo: ' + error.message);
         });
     }
 
-    // Save (add or update)
-    function saveProduct() {
-      const id = formId.value;
-      const data = {
-        name: formName.value.trim(),
-        price: parseFloat(formPrice.value),
-        imageUrl: formImage.value.trim()
-      };
-      if (!data.name || isNaN(data.price) || !data.imageUrl) {
-        alert('All fields are required.'); return;
-      }
-      if (id) {
-        db.collection('products').doc(id).set(data)
-          .then(() => resetForm());
+    function loadGallery() {
+      const galleryContainer = document.getElementById('adminGallery');
+      galleryContainer.innerHTML = '';
+
+      db.collection('gallery').onSnapshot((querySnapshot) => {
+        galleryContainer.innerHTML = '';
+
+        const categories = {};
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const imageUrl = data.url;
+          const category = data.category || 'Uncategorized';
+
+          if (!categories[category]) {
+            categories[category] = [];
+          }
+          categories[category].push({ imageUrl: imageUrl, docId: doc.id });
+        });
+
+        for (const category in categories) {
+          galleryContainer.innerHTML += `
+            <div class="gallery-category">
+              <h3>${category}</h3>
+              <div class="gallery-wrapper">
+                <div class="gallery-grid" id="gallery-${category}"></div>
+              </div>
+            </div>
+          `;
+
+          const categoryContainer = document.getElementById(`gallery-${category}`);
+
+          categories[category].forEach(item => {
+            categoryContainer.innerHTML += `
+              <div>
+                <img src="${item.imageUrl}" alt="Design">
+                <button class="remove-btn" onclick="removePhoto('${item.docId}')">X</button>
+              </div>
+            `;
+          });
+        }
+      });
+    }
+
+    function removePhoto(docId) {
+      db.collection('gallery').doc(docId).delete().catch((error) => {
+        console.error("Error removing document: ", error);
+        alert('Error removing photo: ' + error.message);
+      });
+    }
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        showSection('gallerySection');
+        loadGallery();
+        loadReservations();
+        loadUnavailableDates();
       } else {
-        db.collection('products').add(data)
-          .then(() => resetForm());
+        window.location.href = 'index.html';
       }
-    }
-
-    // Edit
-    function editProduct(id, name, price, imageUrl) {
-      formId.value = id;
-      formName.value = name;
-      formPrice.value = price;
-      formImage.value = imageUrl;
-    }
-
-    // Delete
-    function deleteProduct(id) {
-      if (confirm('Delete this product?')) {
-        db.collection('products').doc(id).delete();
-      }
-    }
-
-    // Reset
-    function resetForm() {
-      formId.value = '';
-      formName.value = '';
-      formPrice.value = '';
-      formImage.value = '';
-      loadProducts();
-    }
-
-    // Real-time update
-    db.collection('products').onSnapshot(loadProducts);
-
-    // Initial load
-    window.onload = loadProducts;
+    });
   </script>
 </body>
 </html>
