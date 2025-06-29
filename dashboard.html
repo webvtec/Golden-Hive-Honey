@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dashboard - Add Item</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
       background-color: #fff8e1; /* light honey background */
       color: #333;
       margin: 0;
@@ -36,6 +36,7 @@
       border: 1px solid #555;
       border-radius: 6px;
       box-sizing: border-box;
+      font-size: 16px;
     }
 
     #addItemForm button {
@@ -44,6 +45,7 @@
       font-weight: bold;
       cursor: pointer;
       border: none;
+      transition: background-color 0.3s ease;
     }
 
     #addItemForm button:hover {
@@ -56,28 +58,29 @@
   <h1>Add New Product</h1>
 
   <div id="addItemForm">
-    <input type="text" id="itemNameInput" placeholder="Enter item name" required>
-    
-    <!-- Regular keyboard; allows commas and dots -->
-    <input type="text" id="itemPriceInput" placeholder="Enter price (e.g., 1,200.50)" required>
-    
-    <input type="text" id="photoUrlInput" placeholder="Enter photo URL" required>
-    
+    <input type="text" id="itemNameInput" placeholder="Enter item name" required autocomplete="off" />
+
+    <!-- Text input to allow comma, dot, normal keyboard -->
+    <input type="text" id="itemPriceInput" placeholder="Enter price (e.g., 1,200.50)" required autocomplete="off" />
+
+    <input type="text" id="photoUrlInput" placeholder="Enter photo URL" required autocomplete="off" />
+
     <select id="photoCategorySelect" required>
       <option value="">Select category</option>
       <option value="Honey">Honey</option>
       <option value="Wax">Wax</option>
       <option value="Gifts">Gifts</option>
     </select>
-    
-    <button onclick="addPhotoUrl()">Add Item</button>
+
+    <button type="button" onclick="addPhotoUrl()">Add Item</button>
   </div>
 
+  <!-- Firebase scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
   <script>
-    // Your Firebase config
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyDccI-TdbCXAJr6CD77X4yOUOfezef7Oks",
       authDomain: "delivery-login-3a084.firebaseapp.com",
@@ -87,13 +90,16 @@
       appId: "1:201998621677:web:b51c3aeb2debe18b4aa5e4"
     };
 
-    firebase.initializeApp(firebaseConfig);
+    // Initialize Firebase only if not initialized
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
     const db = firebase.firestore();
 
     function addPhotoUrl() {
       const name = document.getElementById('itemNameInput').value.trim();
       const rawPrice = document.getElementById('itemPriceInput').value.trim();
-      const price = parseFloat(rawPrice.replace(/,/g, ''));
+      const price = parseFloat(rawPrice.replace(/,/g, '')); // Remove commas before parse
       const url = document.getElementById('photoUrlInput').value.trim();
       const category = document.getElementById('photoCategorySelect').value.trim();
 
@@ -110,7 +116,7 @@
       })
       .then(() => {
         alert('Item added successfully!');
-        // Clear form
+        // Clear inputs
         document.getElementById('itemNameInput').value = '';
         document.getElementById('itemPriceInput').value = '';
         document.getElementById('photoUrlInput').value = '';
@@ -118,7 +124,7 @@
       })
       .catch((error) => {
         console.error('Error adding item:', error);
-        alert('Failed to add item.');
+        alert('Failed to add item: ' + error.message);
       });
     }
   </script>
