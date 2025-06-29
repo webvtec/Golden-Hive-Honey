@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Honey Shop</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Golden Hive Honey</h1>
+    <nav>
+      <a href="login.html">Login</a>
+      <a href="dashboard.html">Admin</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="products">
+      <h2>Our Honey Products</h2>
+      <div class="product-grid">
+        <!-- Example Product -->
+        <div class="product-card">
+          <img src="images/honey1.jpg" alt="Wildflower Honey" />
+          <h3>Wildflower Honey</h3>
+          <p>$12.99</p>
+          <button onclick="addToCart('Wildflower Honey', 12.99)">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="images/honey2.jpg" alt="Clover Honey" />
+          <h3>Clover Honey</h3>
+          <p>$10.99</p>
+          <button onclick="addToCart('Clover Honey', 10.99)">Add to Cart</button>
+        </div>
+        <!-- Add more products here -->
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function addToCart(name, price) {
+      alert(`${name} added to cart!`);
+      // You can extend this to store in localStorage or update a cart page
+    }
+  </script>
+</body>
+</html>
