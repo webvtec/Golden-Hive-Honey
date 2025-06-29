@@ -2,15 +2,135 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - Golden Hive Honey</title>
+  <!-- Firebase App + Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background: #fffdf5; margin: 0; padding: 20px; }
+    h1 { margin-top: 0; }
+    .product-form, .product-list { max-width: 600px; margin-bottom: 40px; }
+    .product-form input { width: 100%; padding: 8px; margin: 5px 0; box-sizing: border-box; }
+    .product-form button { padding: 10px 20px; background: #e0a800; border: none; color: #fff; cursor: pointer; font-weight: bold; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background: #f4f4f4; }
+    .actions button { margin-right: 5px; padding: 5px 10px; }
+  </style>
 </head>
 <body>
-  <main style="padding: 2rem;">
-    <h2>Admin Dashboard</h2>
-    <p>Welcome, admin! Here you can manage products, view orders, etc.</p>
-    <!-- Extend with real admin tools -->
-  </main>
+  <h1>Admin Dashboard</h1>
+
+  <section class="product-form">
+    <h2>Add / Edit Product</h2>
+    <input type="text" id="product-id" placeholder="(Leave blank to add new)" hidden />
+    <input type="text" id="product-name" placeholder="Product Name" required />
+    <input type="number" id="product-price" placeholder="Price" step="0.01" required />
+    <input type="text" id="product-image" placeholder="Image URL" required />
+    <button onclick="saveProduct()">Save Product</button>
+  </section>
+
+  <section class="product-list">
+    <h2>Product List</h2>
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Price</th><th>Image URL</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="products-table-body">
+        <!-- Rows injected here -->
+      </tbody>
+    </table>
+  </section>
+
+  <script>
+    // Initialize Firebase (same config as index.html)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const formId = document.getElementById('product-id');
+    const formName = document.getElementById('product-name');
+    const formPrice = document.getElementById('product-price');
+    const formImage = document.getElementById('product-image');
+    const tableBody = document.getElementById('products-table-body');
+
+    // Fetch & display products
+    function loadProducts() {
+      tableBody.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
+      db.collection('products').orderBy('name').get()
+        .then(snapshot => {
+          tableBody.innerHTML = '';
+          snapshot.forEach(doc => {
+            const { name, price, imageUrl } = doc.data();
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${name}</td>
+              <td>$${price.toFixed(2)}</td>
+              <td>${imageUrl}</td>
+              <td class="actions">
+                <button onclick="editProduct('${doc.id}', '${name}', ${price}, '${imageUrl}')">Edit</button>
+                <button onclick="deleteProduct('${doc.id}')">Delete</button>
+              </td>
+            `;
+            tableBody.appendChild(row);
+          });
+        });
+    }
+
+    // Save (add or update)
+    function saveProduct() {
+      const id = formId.value;
+      const data = {
+        name: formName.value.trim(),
+        price: parseFloat(formPrice.value),
+        imageUrl: formImage.value.trim()
+      };
+      if (!data.name || isNaN(data.price) || !data.imageUrl) {
+        alert('All fields are required.'); return;
+      }
+      if (id) {
+        db.collection('products').doc(id).set(data)
+          .then(() => resetForm());
+      } else {
+        db.collection('products').add(data)
+          .then(() => resetForm());
+      }
+    }
+
+    // Edit
+    function editProduct(id, name, price, imageUrl) {
+      formId.value = id;
+      formName.value = name;
+      formPrice.value = price;
+      formImage.value = imageUrl;
+    }
+
+    // Delete
+    function deleteProduct(id) {
+      if (confirm('Delete this product?')) {
+        db.collection('products').doc(id).delete();
+      }
+    }
+
+    // Reset
+    function resetForm() {
+      formId.value = '';
+      formName.value = '';
+      formPrice.value = '';
+      formImage.value = '';
+      loadProducts();
+    }
+
+    // Real-time update
+    db.collection('products').onSnapshot(loadProducts);
+
+    // Initial load
+    window.onload = loadProducts;
+  </script>
 </body>
 </html>
