@@ -231,7 +231,7 @@
   <div class="header-bar">
     <button class="menu-button" onclick="toggleMenu()">☰</button>
     <div class="header-title">GOLDEN HIVE HONEY</div>
-    <a href="https://maps.app.goo.gl/VvuhaWJN3XzGXDJf6" target="_blank" class="location-button">📍</a>
+    <button class="location-button" onclick="viewCart()">🛒 <span id="cart-count">0</span></button>
   </div>
 
   <!-- ✅ Gallery Section (Now Wrapped) -->
@@ -527,6 +527,31 @@ function deleteReview(docId) {
       alert('Logout failed: ' + error.message);
     });
 }
+
+    function viewCart() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  if (cart.length === 0) {
+    alert('Your cart is empty.');
+    return;
+  }
+  let message = 'Your cart items:\\n';
+  cart.forEach((item, index) => {
+    message += `${index + 1}. ${item.name} - $${item.price.toFixed(2)}\\n`;
+  });
+  alert(message);
+}
+
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  document.getElementById('cart-count').textContent = cart.length;
+}
+
+// Call on load
+window.onload = function() {
+  loadGallery('galleryDisplay');
+  updateCartCount();
+};
+
 
 
 
