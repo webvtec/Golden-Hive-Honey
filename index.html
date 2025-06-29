@@ -389,19 +389,26 @@
   <!-- Reviews Section -->
   <div id="reviewsSection" class="content-section" style="padding-top: 30px; background-color: black; color: white;">
 
-  <div id="reviewFormContainer" style="max-width: 500px; margin: 10px auto 20px auto; background-color: #F1C232; padding: 20px; border-radius: 10px; color: black;">
+  <div id="reviewFormContainer" style="
+    max-width: 500px;
+    margin: 10px auto 20px auto;
+    background-color: #F1C232;
+    padding: 10px;                /* reduced from 20px to 10px */
+    border-radius: 10px;
+    color: black;">
+    
     <form id="reviewForm" style="text-align: center;">
       <input type="text" id="reviewName" placeholder="Your Name" required
-        style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #555; background-color: #fff; color: black; box-sizing: border-box;" />
+        style="width: 100%; padding: 8px; margin-bottom: 6px; border-radius: 6px; border: 1px solid #555; background-color: #fff; color: black; box-sizing: border-box;" />
 
       <textarea id="reviewComment" placeholder="Write your review..." required
-        style="width: 100%; height: 80px; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #555; background-color: #fff; color: black; box-sizing: border-box;"></textarea>
+        style="width: 100%; height: 60px; padding: 8px; margin-bottom: 6px; border-radius: 6px; border: 1px solid #555; background-color: #fff; color: black; box-sizing: border-box;"></textarea>
 
-      <div id="starRating" style="font-size: 24px; margin-bottom: 10px; cursor: pointer; color: #ccc; letter-spacing: -2px;">
+      <div id="starRating" style="font-size: 22px; margin-bottom: 6px; cursor: pointer; color: #ccc; letter-spacing: -2px;">
         <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
       </div>
 
-      <button type="submit" style="background-color: #6200ea; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">
+      <button type="submit" style="background-color: #6200ea; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">
         Submit Review
       </button>
     </form>
