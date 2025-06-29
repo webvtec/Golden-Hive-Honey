@@ -44,13 +44,21 @@
 
     /* Header */
     header {
-      background-color: #f5b301;
-      padding: 0.4rem;
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+  background-color: #f5b301;
+  padding: 0.3rem 1rem;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 0;          /* Remove margin */
+  width: 100vw;       /* Full viewport width */
+  position: fixed;    /* Fix at top */
+  top: 0;
+  left: 0;
+  z-index: 1000;      /* On top of other elements */
+  box-sizing: border-box; /* Include padding in width */
+}
 
     header h1 {
       font-size: 1.4rem;
