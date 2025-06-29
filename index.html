@@ -95,13 +95,19 @@
       right: 10px;
       font-size: 1.5rem;
       cursor: pointer;
+      background-color: #809e00; /* Matching the menu button's background color */
+      border: none;
+      padding: 0.5rem 1rem;
+      color: white;
+      z-index: 1002;
+      border-radius: 0; /* Ensures no rounded corners */
       display: flex;
       align-items: center;
-      background-color: #f5b301;
-      border-radius: 50%;
-      padding: 0.5rem;
-      color: white;
-      z-index: 1002; /* Ensure cart is above header */
+      justify-content: center;
+    }
+
+    .cart:hover {
+      background-color: #f5b301; /* Change to header color on hover */
     }
 
     .cart span {
